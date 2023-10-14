@@ -2,6 +2,7 @@ import express from 'express';
 import connection from './db/config';
 import dotenv from 'dotenv';
 import { urlencoded, json } from 'body-parser';
+import handleError from './middleware/error-middleware';
 const cors = require('cors');
 const http = require('http');
 export const app = express();
@@ -16,8 +17,7 @@ app.use(cors({ origin: process.env.CLIENT_URL, optionsSuccessStatus: 200 }));
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
-// app.use('/file', fileRouter);
-// app.use(handleError);
+app.use(handleError);
 
 connection
     .sync({ alter: true })
