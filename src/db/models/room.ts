@@ -22,18 +22,12 @@ export class Room extends sequelize.Model {
 
     @sequelize.Column({
         type: sequelize.DataType.STRING(255),
-        allowNull: false,
+        allowNull: true,
     })
     image!: string;
 
-    @sequelize.Column({
-        type: sequelize.DataType.BOOLEAN,
-        allowNull: false,
-    })
-    isEnabled!: boolean;
-
     @sequelize.HasMany(() => Reservation, { onDelete: 'cascade' })
-    items!: Reservation[];
+    reservations!: Reservation[];
 }
 
 // export class Room {

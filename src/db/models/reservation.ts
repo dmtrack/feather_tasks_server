@@ -1,5 +1,6 @@
 import * as sequelize from 'sequelize-typescript';
 import { Room } from './room';
+import { User } from './user';
 
 @sequelize.Table({
     timestamps: true,
@@ -23,15 +24,24 @@ export class Reservation extends sequelize.Model {
     })
     roomId!: number;
 
+    @sequelize.BelongsTo(() => User)
+    user?: User;
+    @sequelize.ForeignKey(() => User)
     @sequelize.Column({
-        type: sequelize.DataType.DATE,
+        type: sequelize.DataType.BIGINT,
         allowNull: false,
     })
-    dateStart!: Date;
+    userId!: number;
 
     @sequelize.Column({
-        type: sequelize.DataType.DATE,
+        type: sequelize.DataType.STRING,
         allowNull: false,
     })
-    dateEnd!: Date;
+    dateStart!: string;
+
+    @sequelize.Column({
+        type: sequelize.DataType.STRING,
+        allowNull: false,
+    })
+    dateEnd!: string;
 }
