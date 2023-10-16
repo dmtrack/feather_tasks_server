@@ -3,8 +3,7 @@
         "user1": {
             "name": "dmtrack",
             "email": "dmtrack.dev@gmail.com",
-            "vip": true,
-            "userReservation": [1]
+            "vip": true
         },
         "user2": {
             "name": "ivan",

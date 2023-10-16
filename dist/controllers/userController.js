@@ -41,4 +41,4 @@ class UserController {
         });
     }
 }
-module.exports = new UserController();
+exports.default = new UserController();

@@ -2,7 +2,6 @@ import { RequestHandler } from 'express';
 import { User } from '../db/models/user';
 
 const userService = require('../services/user.service');
-
 class UserController {
     create: RequestHandler = async (req, res, next) => {
         const { name, email } = req.body;
@@ -33,4 +32,4 @@ class UserController {
     };
 }
 
-module.exports = new UserController();
+export default new UserController();

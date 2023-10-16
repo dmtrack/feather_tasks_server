@@ -3,7 +3,7 @@ import { AuthError } from '../exceptions/auth-error';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
 
-export class UserService {
+class UserService {
     async create(user: User) {
         try {
             let { name, vip, email } = user;
