@@ -7,22 +7,14 @@ export class ReservationService {
     async create(reserv: Reservation) {
         try {
             let { roomId, userId, dateStart, dateEnd } = reserv;
-            // const reservation: Reservation | null = await Reservation.findOne({
-            //     where: { email: email },
-            // });
-
-            // if (candidate) {
-            //     return new AuthError(
-            //         'User with this email is already registered'
-            //     );
-            // }
+            const dateStartNum = new Date(dateStart).getTime();
+            const dateEndNum = new Date(dateEnd).getTime();
             const newReserv: Reservation = await Reservation.create({
-                roomId,
-                userId,
-                dateStart,
-                dateEnd,
+                roomId: +roomId,
+                userId: +userId,
+                dateStart: dateStartNum,
+                dateEnd: dateEndNum,
             });
-
             return newReserv;
         } catch (e: any) {
             if (e.name === 'SequelizeUniqueConstraintError') {
@@ -36,15 +28,29 @@ export class ReservationService {
         return reservations;
     }
 
-    async deleteReservation(id: number) {
-        const reserv = await Reservation.findByPk(id);
+    async getReservationByDate(dateStart: string, dateEnd: string) {
+        const reserv = await Reservation.findOne({
+            where: { dateStart: dateStart, dateEnd: dateEnd },
+        });
         if (!reserv) {
             return new EntityError(
-                `there is no reservation with id:${id} in data-base`
+                `there is no reservation with dateStart:${dateStart} and dateEnd: ${dateEnd} in data-base`
             );
         }
-        await Reservation.destroy({ where: { id } });
+        return reserv;
+    }
+
+    async deleteReservation(dateStart: string, dateEnd: string) {
+        const reserv = await Reservation.findOne({
+            where: { dateStart: dateStart, dateEnd: dateEnd },
+        });
+        if (!reserv) {
+            return new EntityError(
+                `there is no reservation with dateStart:${dateStart} and dateEnd: ${dateEnd} in data-base`
+            );
+        }
+        await Reservation.destroy({ where: { id: reserv.id } });
     }
 }
 
-export default new ReservationService();
+module.exports = new ReservationService();

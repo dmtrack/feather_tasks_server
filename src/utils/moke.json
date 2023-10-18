@@ -14,33 +14,27 @@
 
     "rooms": {
         "room1": {
-            "name": "Standart-1",
-            "image": "",
-            "reservations": [1]
+            "name": "Standart-1room"
         },
         "room2": {
-            "name": "Standart-2",
-            "image": "",
-            "reservations": [2]
+            "name": "Standart-2rooms"
         },
         "room3": {
-            "name": "Standart-3",
-            "image": "",
-            "reservations": []
+            "name": "Standart-3rooms"
         }
     },
     "reservations": {
         "reservation1": {
             "roomId": 1,
             "userId": 1,
-            "dateStart": "14.10.2023",
-            "dateEnd": "16.10.2023"
+            "dateStart": "2023/10/14",
+            "dateEnd": "2023/10/14"
         },
         "reservation2": {
-            "roomId": 2,
-            "userId": 2,
-            "dateStart": "1.11.2023",
-            "dateEnd": "8.11.2023"
+            "roomId": 1,
+            "userId": 1,
+            "dateStart": "2023/11/1",
+            "dateEnd": "2023/11/30"
         }
     }
 }

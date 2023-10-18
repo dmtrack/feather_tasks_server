@@ -2,7 +2,7 @@ import * as sequelize from 'sequelize-typescript';
 import { Reservation } from './reservation';
 
 @sequelize.Table({
-    timestamps: false,
+    timestamps: true,
     tableName: 'users',
 })
 export class User extends sequelize.Model {

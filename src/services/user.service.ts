@@ -21,7 +21,6 @@ class UserService {
                 email: email,
                 vip: vip,
             });
-
             return newUser;
         } catch (e: any) {
             if (e.name === 'SequelizeUniqueConstraintError') {

@@ -12,6 +12,7 @@ export class Reservation extends sequelize.Model {
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
+        unique: true,
     })
     id!: number;
 
@@ -20,7 +21,7 @@ export class Reservation extends sequelize.Model {
     @sequelize.ForeignKey(() => Room)
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,
-        allowNull: false,
+        allowNull: true,
     })
     roomId!: number;
 
@@ -29,7 +30,7 @@ export class Reservation extends sequelize.Model {
     @sequelize.ForeignKey(() => User)
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,
-        allowNull: false,
+        allowNull: true,
     })
     userId!: number;
 

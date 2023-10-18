@@ -1,3 +1,8 @@
+import { Router } from 'express';
+const reservationController = require('../controllers/reservationController');
+
+const reservationRouter = Router();
+
 /**
  * @swagger
  * components:
@@ -27,11 +32,10 @@
  *              type: string
  *              description: the reservation's end date
  *        example:
- *              id: 1
  *              roomId: 1
- *              userId: 2
- *              dateStart: 35435435435
- *              dateEnd: 365435345435
+ *              userId: 1
+ *              dateStart: 2023/11/1
+ *              dateEnd: 2023/11/30
  */
 
 /**
@@ -39,3 +43,12 @@
  * tags:
  *  name: Reservation
  */
+
+reservationRouter.get(
+    '/getreservations',
+    reservationController.getReservations
+);
+
+reservationRouter.post('/create', reservationController.create);
+
+export default reservationRouter;
