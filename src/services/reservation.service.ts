@@ -2,24 +2,60 @@ import { Reservation } from './../db/models/reservation';
 import { AuthError } from '../exceptions/auth-error';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
+import { Op, Sequelize } from 'sequelize';
+import { addDays } from '../utils/dates';
+import { Room } from '../db/models/room';
+import { User } from '../db/models/user';
 
 export class ReservationService {
     async create(reserv: Reservation) {
         try {
             let { roomId, userId, dateStart, dateEnd } = reserv;
-            const dateStartNum = new Date(dateStart).getTime();
-            const dateEndNum = new Date(dateEnd).getTime();
-            const newReserv: Reservation = await Reservation.create({
-                roomId: +roomId,
-                userId: +userId,
-                dateStart: dateStartNum,
-                dateEnd: dateEndNum,
-            });
-            return newReserv;
-        } catch (e: any) {
-            if (e.name === 'SequelizeUniqueConstraintError') {
-                return new AuthError(`${e.errors[0].path} already exists`);
-            } else return new DBError('Register reservation error', e);
+            const dateStartCorrect = addDays(dateStart, 1);
+            const dateEndCorrect = addDays(dateEnd, 1);
+            const user = await User.findOne({ where: { id: userId } });
+
+            if (user) {
+                const isBusy = await Reservation.findOne({
+                    where: {
+                        roomId: roomId,
+                        [Op.or]: {
+                            dateStart: {
+                                [Op.between]: [
+                                    dateStartCorrect,
+                                    dateEndCorrect,
+                                ],
+                            },
+                            dateEnd: {
+                                [Op.between]: [
+                                    dateStartCorrect,
+                                    dateEndCorrect,
+                                ],
+                            },
+                        },
+                    },
+                });
+                if (!!isBusy) {
+                    throw new EntityError(
+                        'this room is occupied already on these dates'
+                    );
+                } else {
+                    const newReserv: Reservation = await Reservation.create({
+                        roomId: +roomId,
+                        userId: +userId,
+                        vip: user.vip,
+                        dateStart: dateStartCorrect,
+                        dateEnd: dateEndCorrect,
+                    });
+                    return newReserv;
+                }
+            }
+        } catch (e: unknown) {
+            if (e instanceof DBError) {
+                return new DBError('data base error', e);
+            } else {
+                return new Error('unknown error was occured');
+            }
         }
     }
 
@@ -28,9 +64,11 @@ export class ReservationService {
         return reservations;
     }
 
-    async getReservationByDate(dateStart: string, dateEnd: string) {
+    async getReservationByDates(dateStart: string, dateEnd: string) {
+        const dateStartNum = new Date(dateStart).getTime();
+        const dateEndNum = new Date(dateEnd).getTime();
         const reserv = await Reservation.findOne({
-            where: { dateStart: dateStart, dateEnd: dateEnd },
+            where: { dateStart: dateStartNum, dateEnd: dateEndNum },
         });
         if (!reserv) {
             return new EntityError(
@@ -38,6 +76,51 @@ export class ReservationService {
             );
         }
         return reserv;
+    }
+
+    async getFreeRoomsForDates(reserv: Reservation) {
+        try {
+            let { dateStart, dateEnd } = reserv;
+            const dateStartCorrect = addDays(dateStart, 1);
+            const dateEndCorrect = addDays(dateEnd, 1);
+
+            const occupiedRooms = await Reservation.findAll({
+                where: {
+                    [Op.or]: {
+                        dateStart: {
+                            [Op.between]: [dateStartCorrect, dateEndCorrect],
+                        },
+                        dateEnd: {
+                            [Op.between]: [dateStartCorrect, dateEndCorrect],
+                        },
+                    },
+                },
+                raw: true,
+            });
+            const allRooms = await Room.findAll({ raw: true });
+
+            let freeRooms = allRooms.filter((room) =>
+                occupiedRooms.every(
+                    (occupiedRoom) => occupiedRoom.roomId !== room.id
+                )
+            );
+
+            if (freeRooms.length > 0) {
+                console.log('there are freeRooms');
+                return freeRooms;
+            } else {
+                console.log('ooops');
+                return new EntityError(
+                    'there are no free rooms for these dates, sorry..check other dates, please!'
+                );
+            }
+        } catch (e: unknown) {
+            if (e instanceof DBError) {
+                return new DBError('data base error', e);
+            } else {
+                return new Error('unknown error was occured');
+            }
+        }
     }
 
     async deleteReservation(dateStart: string, dateEnd: string) {

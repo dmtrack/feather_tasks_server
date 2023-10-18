@@ -102,4 +102,6 @@ userRouter.get('/getusers', userController.getUsers);
 
 userRouter.post('/create', userController.create);
 
+userRouter.get('/getstatus', userController.getUserStatus);
+
 export default userRouter;

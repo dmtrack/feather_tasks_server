@@ -49,6 +49,16 @@ reservationRouter.get(
     reservationController.getReservations
 );
 
+reservationRouter.get(
+    '/getbydates',
+    reservationController.getReservationByDates
+);
+
+reservationRouter.get(
+    '/getfreerooms',
+    reservationController.getFreeRoomsForDates
+);
+
 reservationRouter.post('/create', reservationController.create);
 
 export default reservationRouter;

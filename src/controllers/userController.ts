@@ -21,6 +21,14 @@ class UserController {
             next(e);
         }
     };
+    getUserStatus: RequestHandler = async (req, res) => {
+        try {
+            const { id } = req.body;
+            const status = await userService.getUserStatus(id);
+
+            return res.status(200).json({ vip: status });
+        } catch (e) {}
+    };
 
     getUsers: RequestHandler = async (req, res, next) => {
         try {

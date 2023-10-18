@@ -35,13 +35,18 @@ export class Reservation extends sequelize.Model {
     userId!: number;
 
     @sequelize.Column({
-        type: sequelize.DataType.STRING,
+        type: sequelize.DataType.BOOLEAN,
+    })
+    vip!: boolean;
+
+    @sequelize.Column({
+        type: sequelize.DataType.DATE,
         allowNull: false,
     })
     dateStart!: string;
 
     @sequelize.Column({
-        type: sequelize.DataType.STRING,
+        type: sequelize.DataType.DATE,
         allowNull: false,
     })
     dateEnd!: string;

@@ -34,7 +34,7 @@ class UserService {
         return users;
     }
 
-    async getOneUser(id: number) {
+    async getUserStatus(id: number) {
         const user = await User.findOne({
             where: { id: id },
         });
@@ -43,7 +43,7 @@ class UserService {
                 `there is no user with id:${id} in data-base`
             );
         }
-        return user;
+        return user.vip;
     }
 
     async deleteUser(id: number) {

@@ -28,13 +28,19 @@
             "roomId": 1,
             "userId": 1,
             "dateStart": "2023/10/14",
-            "dateEnd": "2023/10/14"
+            "dateEnd": "2023/10/16"
         },
         "reservation2": {
-            "roomId": 1,
-            "userId": 1,
-            "dateStart": "2023/11/1",
-            "dateEnd": "2023/11/30"
+            "roomId": 2,
+            "userId": 2,
+            "dateStart": "2023/10/12",
+            "dateEnd": "2023/10/13"
+        },
+        "reservation3": {
+            "roomId": 3,
+            "userId": 2,
+            "dateStart": "2023/10/12",
+            "dateEnd": "2023/10/13"
         }
     }
 }
