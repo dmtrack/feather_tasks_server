@@ -1,8 +1,7 @@
 import { Reservation } from './../db/models/reservation';
-import { AuthError } from '../exceptions/auth-error';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
-import { Op, Sequelize } from 'sequelize';
+import { Op } from 'sequelize';
 import { addDays } from '../utils/dates';
 import { Room } from '../db/models/room';
 import { User } from '../db/models/user';

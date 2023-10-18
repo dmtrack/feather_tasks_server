@@ -1,6 +1,4 @@
-import { AuthError } from '../exceptions/auth-error';
 import { DBError } from '../exceptions/db-error';
-import { EntityError } from '../exceptions/entity-error';
 import { Room } from '../db/models/room';
 
 export class RoomService {
@@ -13,26 +11,26 @@ export class RoomService {
             });
 
             return newRoom;
-        } catch (e: any) {
-            if (e.name === 'SequelizeUniqueConstraintError') {
-                return new AuthError(`${e.errors[0].path} already exists`);
-            } else return new DBError('Register room error', e);
+        } catch (e: unknown) {
+            if (e instanceof DBError) {
+                return new DBError('data base error', e);
+            } else {
+                return new Error('unknown error was occured');
+            }
         }
     }
 
     async getRooms() {
-        const rooms = await Room.findAll();
-        return rooms;
-    }
-
-    async deleteRoom(id: number) {
-        const room = await Room.findByPk(id);
-        if (!room) {
-            return new EntityError(
-                `there is no room with id:${id} in data-base`
-            );
+        try {
+            const rooms = await Room.findAll();
+            return rooms;
+        } catch (e: unknown) {
+            if (e instanceof DBError) {
+                return new DBError('data base error', e);
+            } else {
+                return new Error('unknown error was occured');
+            }
         }
-        await Room.destroy({ where: { id } });
     }
 }
 

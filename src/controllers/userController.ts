@@ -35,8 +35,6 @@ class UserController {
             } else {
                 res.status(400).json(`there is no user with such id:${id}`);
             }
-
-            return res.status(200).json({ vip: status });
         } catch (e: unknown) {
             if (e instanceof Error) res.status(400).json(e.message);
         }

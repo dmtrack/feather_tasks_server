@@ -22,10 +22,12 @@ class UserService {
                 vip: vip,
             });
             return newUser;
-        } catch (e: any) {
-            if (e.name === 'SequelizeUniqueConstraintError') {
-                return new AuthError(`${e.errors[0].path} already exists`);
-            } else return new DBError('Register user error', e);
+        } catch (e: unknown) {
+            if (e instanceof DBError) {
+                return new DBError('data base error', e);
+            } else {
+                return new Error('unknown error was occured');
+            }
         }
     }
 
