@@ -1,0 +1,45 @@
+{
+    "users": {
+        "user1": {
+            "name": "dmtrack",
+            "email": "dmtrack.dev@gmail.com",
+            "vip": true
+        },
+        "user2": {
+            "name": "ivan",
+            "email": "ivan0706@gmail.com",
+            "vip": false
+        }
+    },
+    "rooms": {
+        "room1": {
+            "name": "Standart-1",
+            "image": "",
+            "reservations": [1]
+        },
+        "room2": {
+            "name": "Standart-2",
+            "image": "",
+            "reservations": [2]
+        },
+        "room3": {
+            "name": "Standart-3",
+            "image": "",
+            "reservations": []
+        }
+    },
+    "reservations": {
+        "reservation1": {
+            "roomId": 1,
+            "userId": 1,
+            "dateStart": "14.10.2023",
+            "dateEnd": "16.10.2023"
+        },
+        "reservation2": {
+            "roomId": 2,
+            "userId": 2,
+            "dateStart": "1.11.2023",
+            "dateEnd": "8.11.2023"
+        }
+    }
+}
