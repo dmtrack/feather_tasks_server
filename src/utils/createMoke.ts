@@ -10,6 +10,7 @@ export const createMokeData = async () => {
     await RoomService.create(mokeData.rooms.room1);
     await RoomService.create(mokeData.rooms.room2);
     await RoomService.create(mokeData.rooms.room3);
+    await RoomService.create(mokeData.rooms.room4);
 
     await ReservationService.create(mokeData.reservations.reservation1);
     await ReservationService.create(mokeData.reservations.reservation2);

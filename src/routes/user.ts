@@ -102,6 +102,34 @@ userRouter.get('/getusers', userController.getUsers);
 
 userRouter.post('/create', userController.create);
 
-userRouter.get('/getstatus', userController.getUserStatus);
+/**
+ * @swagger
+ * /user/getstatus/{id}:
+ *   get:
+ *     summary: Get user's status by id
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user id
+ *     responses:
+ *       200:
+ *         description: user's status
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                  vip:
+ *                    type: boolean
+ *
+ *       500:
+ *         description:  there is no user with such id
+ */
+
+userRouter.get('/getstatus/:id', userController.getUserStatus);
 
 export default userRouter;

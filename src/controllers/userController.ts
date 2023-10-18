@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import { User } from '../db/models/user';
+import { EntityError } from '../exceptions/entity-error';
 
 const userService = require('../services/user.service');
 class UserController {
@@ -17,25 +18,36 @@ class UserController {
                 vip: response.vip,
                 email: response.email,
             });
-        } catch (e) {
-            next(e);
+        } catch (e: unknown) {
+            if (e instanceof Error) res.status(400).json(e.message);
         }
     };
     getUserStatus: RequestHandler = async (req, res) => {
+        const id = req.params.id;
+
         try {
-            const { id } = req.body;
             const status = await userService.getUserStatus(id);
 
+            if (!(status instanceof EntityError)) {
+                res.status(200).json({
+                    vip: status,
+                });
+            } else {
+                res.status(400).json(`there is no user with such id:${id}`);
+            }
+
             return res.status(200).json({ vip: status });
-        } catch (e) {}
+        } catch (e: unknown) {
+            if (e instanceof Error) res.status(400).json(e.message);
+        }
     };
 
     getUsers: RequestHandler = async (req, res, next) => {
         try {
             const users = await userService.getUsers();
             return res.json({ data: users });
-        } catch (e) {
-            next(e);
+        } catch (e: unknown) {
+            if (e instanceof Error) res.status(400).json(e.message);
         }
     };
 }

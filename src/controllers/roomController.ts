@@ -14,8 +14,8 @@ class RoomController {
                 id: response.id,
                 name: response.name,
             });
-        } catch (e) {
-            next(e);
+        } catch (e: unknown) {
+            if (e instanceof Error) res.status(400).json(e.message);
         }
     };
 
@@ -23,8 +23,8 @@ class RoomController {
         try {
             const rooms = await roomService.getRooms();
             return res.json({ data: rooms });
-        } catch (e) {
-            next(e);
+        } catch (e: unknown) {
+            if (e instanceof Error) res.status(500).json(e.message);
         }
     };
 }

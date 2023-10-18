@@ -21,6 +21,9 @@
         },
         "room3": {
             "name": "Standart-3rooms"
+        },
+        "room4": {
+            "name": "Penthouse"
         }
     },
     "reservations": {

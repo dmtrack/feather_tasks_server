@@ -3,7 +3,7 @@ import { Room } from './room';
 import { User } from './user';
 
 @sequelize.Table({
-    timestamps: true,
+    timestamps: false,
     tableName: 'reservations',
 })
 export class Reservation extends sequelize.Model {

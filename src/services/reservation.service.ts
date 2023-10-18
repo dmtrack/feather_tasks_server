@@ -36,7 +36,7 @@ export class ReservationService {
                     },
                 });
                 if (!!isBusy) {
-                    throw new EntityError(
+                    return new EntityError(
                         'this room is occupied already on these dates'
                     );
                 } else {
@@ -83,7 +83,6 @@ export class ReservationService {
             let { dateStart, dateEnd } = reserv;
             const dateStartCorrect = addDays(dateStart, 1);
             const dateEndCorrect = addDays(dateEnd, 1);
-
             const occupiedRooms = await Reservation.findAll({
                 where: {
                     [Op.or]: {
@@ -123,13 +122,13 @@ export class ReservationService {
         }
     }
 
-    async deleteReservation(dateStart: string, dateEnd: string) {
+    async deleteReservation(id: string) {
         const reserv = await Reservation.findOne({
-            where: { dateStart: dateStart, dateEnd: dateEnd },
+            where: { id },
         });
         if (!reserv) {
             return new EntityError(
-                `there is no reservation with dateStart:${dateStart} and dateEnd: ${dateEnd} in data-base`
+                `there is no reservation with id:${id}  in data-base`
             );
         }
         await Reservation.destroy({ where: { id: reserv.id } });
