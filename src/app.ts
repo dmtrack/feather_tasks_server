@@ -14,6 +14,8 @@ import { createMokeData } from './utils/createMoke';
 
 export const app = express();
 export const server = http.createServer(app);
+const CSS_URL =
+    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css';
 
 dotenv.config();
 app.options(
@@ -50,7 +52,7 @@ app.use('/reservation', reservationRouter);
 app.use(
     '/api-docs',
     swaggerUI.serve,
-    swaggerUI.setup(specs, { explorer: true })
+    swaggerUI.setup(specs, { explorer: true, customCss: CSS_URL })
 );
 
 connection
