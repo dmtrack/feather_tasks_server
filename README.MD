@@ -8,7 +8,8 @@ Service allows you to manage data on cloud data-base (postgre):
 3. create new reservations, rooms, users
 4. destroy reservations, room, users
 
-[deploy]()
+[deploy](https://booking-service-api-xel2.onrender.com)
+[swagger](https://booking-service-api-xel2.onrender.com/api-docs)
 
 ## Preview
 
