@@ -1,17 +1,19 @@
 ## booking_service API
 
-This test-task for the company
+This is the test-task for the company
 
-Service allows you to manage data on cloud data-base (postgre):
+## Description
+
+Service allows you to manage data on cloud data-base (postgre)
 
 1. get all users, rooms, reservations
 2. check if there free rooms for particular dates
 3. create new reservations, rooms, users
 4. destroy reservations, room, users
 
-[deploy](https://booking-service-api-xel2.onrender.com)
+[deploy](https://booking-service-api-xel2.onrender.com/api-docs)
 
-[swagger](https://booking-service-api-xel2.onrender.com/api-docs)
+> **Attention!** The backend and data-base are deployed on a free service render.com, so when you run the application for the first time, you need to wait a little bit. Thank you ✊🏻
 
 ## Preview
 
