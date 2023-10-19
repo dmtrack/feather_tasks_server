@@ -22,6 +22,6 @@ Service allows you to manage data on cloud data-base (postgre)
 ## Stack
 
 -   NodeJS
--   express
+-   Express
 -   Sequelize (postgreSQL)
 -   Swagger
