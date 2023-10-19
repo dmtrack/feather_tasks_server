@@ -1,6 +1,7 @@
 ## booking_service API
 
 This test-task for the company
+
 Service allows you to manage data on cloud data-base (postgre):
 
 1. get all users, rooms, reservations
@@ -9,6 +10,7 @@ Service allows you to manage data on cloud data-base (postgre):
 4. destroy reservations, room, users
 
 [deploy](https://booking-service-api-xel2.onrender.com)
+
 [swagger](https://booking-service-api-xel2.onrender.com/api-docs)
 
 ## Preview
