@@ -1,12 +1,11 @@
 import * as sequelize from 'sequelize-typescript';
-import { Room } from './room';
 import { User } from './user';
 
 @sequelize.Table({
     timestamps: false,
-    tableName: 'reservations',
+    tableName: 'grades',
 })
-export class Reservation extends sequelize.Model {
+export class Grade extends sequelize.Model {
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,
         autoIncrement: true,
@@ -15,15 +14,6 @@ export class Reservation extends sequelize.Model {
         unique: true,
     })
     id!: number;
-
-    @sequelize.BelongsTo(() => Room)
-    room?: Room;
-    @sequelize.ForeignKey(() => Room)
-    @sequelize.Column({
-        type: sequelize.DataType.BIGINT,
-        allowNull: true,
-    })
-    roomId!: number;
 
     @sequelize.BelongsTo(() => User)
     user?: User;
@@ -35,19 +25,19 @@ export class Reservation extends sequelize.Model {
     userId!: number;
 
     @sequelize.Column({
-        type: sequelize.DataType.BOOLEAN,
+        type: sequelize.DataType.STRING,
     })
-    vip!: boolean;
+    subject!: string;
+
+    @sequelize.Column({
+        type: sequelize.DataType.INTEGER,
+        allowNull: false,
+    })
+    grade!: number;
 
     @sequelize.Column({
         type: sequelize.DataType.DATE,
         allowNull: false,
     })
-    dateStart!: string;
-
-    @sequelize.Column({
-        type: sequelize.DataType.DATE,
-        allowNull: false,
-    })
-    dateEnd!: string;
+    date!: string;
 }

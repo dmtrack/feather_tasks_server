@@ -1,5 +1,5 @@
 import * as sequelize from 'sequelize-typescript';
-import { Reservation } from './reservation';
+import { Reservation } from './grade';
 
 @sequelize.Table({
     tableName: 'rooms',

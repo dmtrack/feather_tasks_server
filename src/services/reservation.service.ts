@@ -1,4 +1,4 @@
-import { Reservation } from './../db/models/reservation';
+import { Reservation } from '../db/models/grade';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
 import { Op } from 'sequelize';

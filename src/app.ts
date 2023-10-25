@@ -9,7 +9,6 @@ import swaggerJsDoc from 'swagger-jsdoc';
 
 import userRouter from './routes/user';
 import roomRouter from './routes/room';
-import reservationRouter from './routes/reservation';
 import { createMokeData } from './utils/createMoke';
 
 export const app = express();
@@ -38,7 +37,7 @@ const options = {
             },
         ],
     },
-    apis: [`${__dirname}/routes/*.js`],
+    apis: [`${__dirname}/routes/*.ts`],
 };
 
 const specs = swaggerJsDoc(options);
@@ -46,9 +45,8 @@ const specs = swaggerJsDoc(options);
 app.use(cors({ origin: process.env.CLIENT_URL, optionsSuccessStatus: 200 }));
 app.use(json());
 app.use(urlencoded({ extended: true }));
-app.use('/user', userRouter);
-app.use('/room', roomRouter);
-app.use('/reservation', reservationRouter);
+app.use('/log', roomRouter);
+app.use('/statistic', userRouter);
 app.use(
     '/api-docs',
     swaggerUI.serve,

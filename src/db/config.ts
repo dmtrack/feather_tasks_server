@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Reservation } from './models/reservation';
+import { Reservation } from './models/grade';
 import { Room } from './models/room';
 import dotenv from 'dotenv';
 import { User } from './models/user';

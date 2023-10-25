@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { Reservation } from '../db/models/reservation';
+import { Reservation } from '../db/models/grade';
 import { EntityError } from '../exceptions/entity-error';
 
 const reservationService = require('../services/reservation.service');
