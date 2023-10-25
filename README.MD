@@ -1,4 +1,4 @@
-## booking_service API
+## students_service API
 
 This is the test-task for the company
 
@@ -25,3 +25,4 @@ Service allows you to manage data on cloud data-base (postgre)
 -   Express
 -   Sequelize (postgreSQL)
 -   Swagger
+-   NATS
