@@ -3,23 +3,22 @@ import { AuthError } from '../exceptions/auth-error';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
 
-class UserService {
+class LogService {
     async create(user: User) {
         try {
-            let { name, vip, email } = user;
+            let { name, lastname } = user;
             const candidate: User | null = await User.findOne({
-                where: { email: email },
+                where: { lastname: lastname },
             });
 
             if (candidate) {
                 return new AuthError(
-                    'User with this email is already registered'
+                    'User with this lastname is already registered'
                 );
             }
             const newUser: User = await User.create({
                 name: name,
-                email: email,
-                vip: vip,
+                lastname: lastname,
             });
             return newUser;
         } catch (e: unknown) {
@@ -36,18 +35,6 @@ class UserService {
         return users;
     }
 
-    async getUserStatus(id: number) {
-        const user = await User.findOne({
-            where: { id: id },
-        });
-        if (!user) {
-            return new EntityError(
-                `there is no user with id:${id} in data-base`
-            );
-        }
-        return user.vip;
-    }
-
     async deleteUser(id: number) {
         const user = await User.findByPk(id);
         if (!user) {
@@ -59,4 +46,4 @@ class UserService {
     }
 }
 
-module.exports = new UserService();
+module.exports = new LogService();

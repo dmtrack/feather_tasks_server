@@ -1,7 +1,7 @@
 import { Router } from 'express';
-const reservationController = require('../controllers/reservationController');
+const statController = require('../controllers/statController');
 
-const reservationRouter = Router();
+const statRouter = Router();
 
 /**
  * @swagger
@@ -67,15 +67,9 @@ const reservationRouter = Router();
  *                  $ref: '#/components/schemas/Reservation'
  */
 
-reservationRouter.get(
-    '/getreservations',
-    reservationController.getReservations
-);
+statRouter.get('/getgrades', statController.getGrades);
 
-reservationRouter.get(
-    '/getbydates',
-    reservationController.getReservationByDates
-);
+// statRouter.get('/getbydates', reservationController.getReservationByDates);
 
 /**
  * @swagger
@@ -111,10 +105,10 @@ reservationRouter.get(
  *         description:  there are no free rooms, sorry
  */
 
-reservationRouter.get(
-    '/getfreerooms',
-    reservationController.getFreeRoomsForDates
-);
+// reservationRouter.get(
+//     '/getfreerooms',
+//     reservationController.getFreeRoomsForDates
+// );
 
 /**
  * @swagger
@@ -165,7 +159,7 @@ reservationRouter.get(
  *
  */
 
-reservationRouter.post('/create', reservationController.create);
+statRouter.post('/create', statController.create);
 
 /**
  * @swagger
@@ -188,9 +182,39 @@ reservationRouter.post('/create', reservationController.create);
  *         description: there is no reservation with id in data-base
  */
 
-reservationRouter.delete(
-    '/delete/:id',
-    reservationController.deleteReservation
-);
+// reservationRouter.delete(
+//     '/delete/:id',
+//     reservationController.deleteReservation
+// );
 
-export default reservationRouter;
+/**
+ * @swagger
+ * /statistic/getuserstatistic/{id}:
+ *   get:
+ *     summary: Get user's status by id
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user id
+ *     responses:
+ *       200:
+ *         description: user's status
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                  vip:
+ *                    type: boolean
+ *
+ *       500:
+ *         description:  there is no user with such id
+ */
+
+statRouter.get('/:id', statController.getUserStatistic);
+
+export default statRouter;

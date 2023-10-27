@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import userController from '../controllers/userController';
+import logController from '../controllers/logController';
 
-const userRouter = Router();
+const logRouter = Router();
 
 /**
  * @swagger
@@ -56,7 +56,7 @@ const userRouter = Router();
  *                items:
  *                  $ref: '#/components/schemas/User'
  */
-userRouter.get('/getusers', userController.getUsers);
+logRouter.get('/getusers', logController.getUsers);
 
 /**
  * @swagger
@@ -100,36 +100,6 @@ userRouter.get('/getusers', userController.getUsers);
  *
  */
 
-userRouter.post('/create', userController.create);
+logRouter.post('/create', logController.create);
 
-/**
- * @swagger
- * /user/getstatus/{id}:
- *   get:
- *     summary: Get user's status by id
- *     tags: [User]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: user id
- *     responses:
- *       200:
- *         description: user's status
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                  vip:
- *                    type: boolean
- *
- *       500:
- *         description:  there is no user with such id
- */
-
-userRouter.get('/getstatus/:id', userController.getUserStatus);
-
-export default userRouter;
+export default logRouter;

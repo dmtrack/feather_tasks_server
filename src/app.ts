@@ -7,9 +7,9 @@ import http from 'http';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 
-import userRouter from './routes/user';
-import roomRouter from './routes/room';
+import logRouter from './routes/log';
 import { createMokeData } from './utils/createMoke';
+import statRouter from './routes/stat';
 
 export const app = express();
 export const server = http.createServer(app);
@@ -45,8 +45,8 @@ const specs = swaggerJsDoc(options);
 app.use(cors({ origin: process.env.CLIENT_URL, optionsSuccessStatus: 200 }));
 app.use(json());
 app.use(urlencoded({ extended: true }));
-app.use('/log', roomRouter);
-app.use('/statistic', userRouter);
+app.use('/statistic', statRouter);
+app.use('/log', logRouter);
 app.use(
     '/api-docs',
     swaggerUI.serve,

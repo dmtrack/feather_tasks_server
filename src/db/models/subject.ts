@@ -1,11 +1,11 @@
 import * as sequelize from 'sequelize-typescript';
-import { Reservation } from './grade';
+import { Grade } from './grade';
 
 @sequelize.Table({
-    tableName: 'rooms',
+    tableName: 'subject',
     timestamps: false,
 })
-export class Room extends sequelize.Model {
+export class Subject extends sequelize.Model {
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,
         autoIncrement: true,
@@ -21,6 +21,6 @@ export class Room extends sequelize.Model {
     })
     name!: string;
 
-    @sequelize.HasMany(() => Reservation, { onDelete: 'cascade' })
-    reservations!: Reservation[];
+    @sequelize.HasMany(() => Grade)
+    grades!: Grade[];
 }

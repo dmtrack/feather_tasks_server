@@ -1,18 +1,39 @@
+import { Grade } from '../db/models/grade';
+import { Subject } from '../db/models/subject';
 import mokeData from '../utils/moke.json';
 
-const UserService = require('../services/user.service');
-const RoomService = require('../services/room.service');
-const ReservationService = require('../services/reservation.service');
+const LogService = require('../services/log.service');
+const StatService = require('../services/stat.service');
 
 export const createMokeData = async () => {
-    await UserService.create(mokeData.users.user1);
-    await UserService.create(mokeData.users.user2);
-    await RoomService.create(mokeData.rooms.room1);
-    await RoomService.create(mokeData.rooms.room2);
-    await RoomService.create(mokeData.rooms.room3);
-    await RoomService.create(mokeData.rooms.room4);
+    await Subject.create({
+        name: mokeData.subjects.subject1.name,
+    });
+    await Subject.create({
+        name: mokeData.subjects.subject2.name,
+    });
+    await Subject.create({
+        name: mokeData.subjects.subject3.name,
+    });
+    await Subject.create({
+        name: mokeData.subjects.subject4.name,
+    });
+    await Subject.create({
+        name: mokeData.subjects.subject5.name,
+    });
+    await Subject.create({
+        name: mokeData.subjects.subject6.name,
+    });
 
-    await ReservationService.create(mokeData.reservations.reservation1);
-    await ReservationService.create(mokeData.reservations.reservation2);
-    await ReservationService.create(mokeData.reservations.reservation3);
+    await LogService.create(mokeData.users.user1);
+    await LogService.create(mokeData.users.user2);
+
+    await StatService.create(mokeData.grades.grade1);
+    await StatService.create(mokeData.grades.grade2);
+    await StatService.create(mokeData.grades.grade3);
+    await StatService.create(mokeData.grades.grade4);
+    await StatService.create(mokeData.grades.grade5);
+    await StatService.create(mokeData.grades.grade6);
+    await StatService.create(mokeData.grades.grade7);
+    await StatService.create(mokeData.grades.grade8);
 };

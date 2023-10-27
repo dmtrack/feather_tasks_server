@@ -1,49 +1,83 @@
 {
+    "subjects": {
+        "subject1": {
+            "name": "Math"
+        },
+        "subject2": {
+            "name": "English"
+        },
+        "subject3": {
+            "name": "Literature"
+        },
+        "subject4": {
+            "name": "Geography"
+        },
+        "subject5": {
+            "name": "Sport"
+        },
+        "subject6": {
+            "name": "Arts"
+        }
+    },
     "users": {
         "user1": {
-            "name": "dmtrack",
-            "email": "dmtrack.dev@gmail.com",
-            "vip": true
+            "name": "Dmitriy",
+            "lastname": "Maslov"
         },
         "user2": {
-            "name": "ivan",
-            "email": "ivan0706@gmail.com",
-            "vip": false
+            "name": "Ivan",
+            "lastname": "Petrov"
         }
     },
 
-    "rooms": {
-        "room1": {
-            "name": "Standart-1room"
-        },
-        "room2": {
-            "name": "Standart-2rooms"
-        },
-        "room3": {
-            "name": "Standart-3rooms"
-        },
-        "room4": {
-            "name": "Penthouse"
-        }
-    },
-    "reservations": {
-        "reservation1": {
-            "roomId": 1,
+    "grades": {
+        "grade1": {
             "userId": 1,
-            "dateStart": "2023/10/14",
-            "dateEnd": "2023/10/16"
+            "subjectId": 1,
+            "grade": 5,
+            "date": "2023/10/26"
         },
-        "reservation2": {
-            "roomId": 2,
-            "userId": 2,
-            "dateStart": "2023/10/12",
-            "dateEnd": "2023/10/13"
+        "grade2": {
+            "userId": 1,
+            "subjectId": 1,
+            "grade": 5,
+            "date": "2023/10/8"
         },
-        "reservation3": {
-            "roomId": 3,
-            "userId": 2,
-            "dateStart": "2023/10/12",
-            "dateEnd": "2023/10/13"
+        "grade3": {
+            "userId": 1,
+            "subjectId": 4,
+            "grade": 3,
+            "date": "2023/10/5"
+        },
+        "grade4": {
+            "userId": 1,
+            "subjectId": 3,
+            "grade": 10,
+            "date": "2023/10/1"
+        },
+        "grade5": {
+            "userId": 1,
+            "subjectId": 1,
+            "grade": 1,
+            "date": "2023/10/26"
+        },
+        "grade6": {
+            "userId": 1,
+            "subjectId": 2,
+            "grade": 2,
+            "date": "2023/10/8"
+        },
+        "grade7": {
+            "userId": 1,
+            "subjectId": 4,
+            "grade": 5,
+            "date": "2023/10/5"
+        },
+        "grade8": {
+            "userId": 1,
+            "subjectId": 3,
+            "grade": 3,
+            "date": "2023/10/1"
         }
     }
 }

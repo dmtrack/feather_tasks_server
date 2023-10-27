@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { Room } from '../db/models/room';
+import { Room } from '../db/models/subject';
 
 const roomService = require('../services/room.service');
 class RoomController {

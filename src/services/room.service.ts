@@ -1,5 +1,5 @@
 import { DBError } from '../exceptions/db-error';
-import { Room } from '../db/models/room';
+import { Room } from '../db/models/subject';
 
 export class RoomService {
     async create(room: Room) {

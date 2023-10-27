@@ -1,4 +1,5 @@
 import * as sequelize from 'sequelize-typescript';
+import { Subject } from './subject';
 import { User } from './user';
 
 @sequelize.Table({
@@ -24,10 +25,14 @@ export class Grade extends sequelize.Model {
     })
     userId!: number;
 
+    @sequelize.BelongsTo(() => Subject)
+    subject?: Subject;
+    @sequelize.ForeignKey(() => Subject)
     @sequelize.Column({
-        type: sequelize.DataType.STRING,
+        type: sequelize.DataType.BIGINT,
+        allowNull: false,
     })
-    subject!: string;
+    subjectId!: number;
 
     @sequelize.Column({
         type: sequelize.DataType.INTEGER,
