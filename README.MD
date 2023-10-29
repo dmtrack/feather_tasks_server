@@ -6,12 +6,11 @@ This is the test-task for the company
 
 Service allows you to manage data on cloud data-base (postgre)
 
-1. get all users, rooms, reservations
-2. check if there free rooms for particular dates
-3. create new reservations, rooms, users
+1. create / get all grades and students
+2. get particular responce after req with query parameters
+3. subscribe on new grades creating via NATS server
 4. destroy reservations, room, users
-
-[deploy](https://booking-service-api-xel2.onrender.com/api-docs)
+5. swagger docs
 
 > **Attention!** The backend and data-base are deployed on a free service render.com, so when you run the application for the first time, you need to wait a little bit. Thank you ✊🏻
 
@@ -26,3 +25,5 @@ Service allows you to manage data on cloud data-base (postgre)
 -   Sequelize (postgreSQL)
 -   Swagger
 -   NATS
+
+npx ts-node ./src/services/subscriber.ts

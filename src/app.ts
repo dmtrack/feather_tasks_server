@@ -10,6 +10,8 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import logRouter from './routes/log';
 import { createMokeData } from './utils/createMoke';
 import statRouter from './routes/stat';
+import { gradeEmitter } from './utils/gradeEmitter';
+const natsService = require('./services/nats.service');
 
 export const app = express();
 export const server = http.createServer(app);
@@ -52,6 +54,8 @@ app.use(
     swaggerUI.serve,
     swaggerUI.setup(specs, { explorer: true, customCss: CSS_URL })
 );
+
+natsService.gradeEmitter();
 
 connection
     .sync({ force: true })
