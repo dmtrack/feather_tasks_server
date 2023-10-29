@@ -5,6 +5,7 @@ import { User } from './user';
 @sequelize.Table({
     timestamps: false,
     tableName: 'grades',
+    freezeTableName: true,
 })
 export class Grade extends sequelize.Model {
     @sequelize.Column({
@@ -21,7 +22,7 @@ export class Grade extends sequelize.Model {
     @sequelize.ForeignKey(() => User)
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,
-        allowNull: true,
+        allowNull: false,
     })
     userId!: number;
 

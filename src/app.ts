@@ -10,7 +10,6 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import logRouter from './routes/log';
 import { createMokeData } from './utils/createMoke';
 import statRouter from './routes/stat';
-import { gradeEmitter } from './utils/gradeEmitter';
 const natsService = require('./services/nats.service');
 
 export const app = express();
@@ -55,12 +54,12 @@ app.use(
     swaggerUI.setup(specs, { explorer: true, customCss: CSS_URL })
 );
 
-natsService.gradeEmitter();
-
 connection
     .sync({ force: true })
     .then(async () => {
-        createMokeData();
+        await createMokeData();
+        // natsService.gradeEmitter(5000);
+        // natsService.stream();
         console.log('Database synced successfully, lets go!');
     })
     .catch((err) => {
