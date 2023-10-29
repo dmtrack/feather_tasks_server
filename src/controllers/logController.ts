@@ -30,8 +30,12 @@ class LogController {
         }
     };
     getUserLog: RequestHandler = async (req, res) => {
-        const id = req.query.userId;
-        const query = req.query;
+        let query = req.query;
+        if (query.date?.length) {
+            const date = query.date;
+            query.date = new Date(date as string).toISOString();
+        }
+        console.log(query);
 
         try {
             const response = await logService.getUserLog(query);
@@ -41,7 +45,7 @@ class LogController {
                     response,
                 });
             } else {
-                res.status(400).json(`запрос не содержит нужной информации`);
+                res.status(400).json(`по выбранным параметрам нет оценок`);
             }
         } catch (e: unknown) {
             if (e instanceof Error) res.status(400).json(e.message);

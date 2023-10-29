@@ -33,7 +33,7 @@ const options = {
 
         servers: [
             {
-                url: process.env.SERVER,
+                url: `${process.env.SERVER}:${process.env.PORT}`,
             },
         ],
     },

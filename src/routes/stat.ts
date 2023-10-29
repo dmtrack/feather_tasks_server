@@ -7,145 +7,111 @@ const statRouter = Router();
  * @swagger
  * components:
  *    schemas:
- *      Reservation:
+ *      User:
  *        type: object
  *        required:
  *            - id
- *            - roomId
- *            - userId
- *            - dateStart
- *            - dateEnd
+ *            - name
+ *            - lastname
  *        properties:
  *            id:
  *              type: integer
- *              description: the auto-generated id of the reservation
- *            roomId:
- *              type: integer
- *              description: the link to roomId
- *            userId:
- *              type: integer
- *              description: the link to userId
- *            dateStart:
+ *              description: the auto-generated if of the user
+ *            name:
  *              type: string
- *              format: date
- *              description: the reservation's start date
- *            dateEnd:
+ *              description: the user name
+ *            lastname:
  *              type: string
- *              format: date
- *              description: the reservation's end date
- *            vip:
- *              type: boolean
- *              description: status of the user
+ *              description: the user lastname
  *        example:
- *              roomId: 1
- *              userId: 1
- *              dateStart: 2023/10/12
- *              dateEnd: 2023/10/14
- *              vip: true
+ *              id: 1
+ *              name: Dmitriy
+ *              lastname: Maslov
  */
 
 /**
  * @swagger
  * tags:
- *  name: Reservation
+ *  name: User
+ */
+
+/** @swagger
+ * components:
+ *    schemas:
+ *      Grade:
+ *        type: object
+ *        required:
+ *            - id
+ *            - subjectId
+ *            - userId
+ *            - grade
+ *            - date
+ *        properties:
+ *            id:
+ *              type: integer
+ *              description: the auto-generated id of the reservation
+ *            subjectId:
+ *              type: integer
+ *              description: link to subject
+ *            userId:
+ *              type: integer
+ *              description:  link to user
+ *            grade:
+ *              type: integer
+ *              description: user's grade for particular subject
+ *            date:
+ *              type: string
+ *              format: date
+ *              description: date of the grade
+ *        example:
+ *              subjectId: 1
+ *              userId: 1
+ *              grade: 3
+ *              date: 2023-10-05
  */
 
 /**
  * @swagger
- *  /reservation/getreservations:
- *    get:
- *      summary: returns the list of all the reservations
- *      tags: [Reservation]
- *      responses:
- *        200:
- *          description: the list of the reservations
- *          content:
- *            application/json:
- *              schema:
- *                type: array
- *                items:
- *                  $ref: '#/components/schemas/Reservation'
+ * tags:
+ *  name: Grade
  */
-
-statRouter.get('/getgrades', statController.getGrades);
-
-// statRouter.get('/getbydates', reservationController.getReservationByDates);
 
 /**
  * @swagger
- * /reservation/getfreerooms:
- *   get:
- *      summary: get free rooms by prefered start and end dates
- *      tags: [Reservation]
- *      parameters:
- *      - in: query
- *        name: dateStart
- *        required: true
- *        schema:
- *          type: string
- *          format: date
- *        description: parameter fo start date
- *      - in: query
- *        name: dateEnd
- *        required: true
- *        schema:
- *          type: string
- *          format: date
- *        description: parameter fo end date
- *      responses:
- *       200:
- *         description: get
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                  $ref: '#/components/schemas/Reservation'
- *       404:
- *         description:  there are no free rooms, sorry
- */
-
-// reservationRouter.get(
-//     '/getfreerooms',
-//     reservationController.getFreeRoomsForDates
-// );
-
-/**
- * @swagger
- * /reservation/create:
+ * /statistic/create:
  *  post:
- *    summary: creates the new reservation
- *    tags: [Reservation]
+ *    summary: creates the new grade
+ *    tags: [Grade]
  *    requestBody:
  *        required: true
  *        content:
  *          application/json:
  *            schema:
  *                required:
- *                 - roomId
  *                 - userId
- *                 - dateStart
- *                 - dateEnd
+ *                 - subjectId
+ *                 - grade
+ *                 - date
  *                properties:
- *                  name:
- *                    roomId: integer
- *                    description: the room's id
  *                  userId:
  *                    type: integer
  *                    description: the user's id
+ *                  subjectId:
+ *                    type: integer
+ *                    description: the subject's id
  *                  dateStart:
  *                    type: string
  *                    format: date
  *                    description: start date
- *                  dateEnd:
+ *                  date:
  *                    type: string
  *                    format: date
- *                    description: end date
+ *                    description: grade's date
  *                example:
- *                    roomId: 1
  *                    userId: 1
- *                    dateStart: 2023/10/12
- *                    dateEnd: 2023/10/14
+ *                    subjectId: 1
+ *                    grade: 3
+ *                    date: 2023-10-14
  *
  *    responses:
  *      200:
@@ -189,9 +155,9 @@ statRouter.post('/create', statController.create);
 
 /**
  * @swagger
- * /statistic/getuserstatistic/{id}:
+ * /statistic/{id}:
  *   get:
- *     summary: Get user's status by id
+ *     summary: Get user's statistic by id
  *     tags: [User]
  *     parameters:
  *       - in: path
@@ -202,14 +168,11 @@ statRouter.post('/create', statController.create);
  *         description: user id
  *     responses:
  *       200:
- *         description: user's status
+ *         description: user's statistic
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               properties:
- *                  vip:
- *                    type: boolean
  *
  *       500:
  *         description:  there is no user with such id

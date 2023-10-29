@@ -12,8 +12,7 @@ const logRouter = Router();
  *        required:
  *            - id
  *            - name
- *            - email
- *            - vip
+ *            - lastname
  *        properties:
  *            id:
  *              type: integer
@@ -21,17 +20,13 @@ const logRouter = Router();
  *            name:
  *              type: string
  *              description: the user name
- *            email:
+ *            lastname:
  *              type: string
- *              description: the user email
- *            vip:
- *              type: boolean
- *              description: the user's status
+ *              description: the user lastname
  *        example:
  *              id: 1
- *              name: Pavel
- *              email: storm@gmail.com
- *              vip: true
+ *              name: Dmitriy
+ *              lastname: Maslov
  */
 
 /**
@@ -40,9 +35,50 @@ const logRouter = Router();
  *  name: User
  */
 
+/** @swagger
+ * components:
+ *    schemas:
+ *      Grade:
+ *        type: object
+ *        required:
+ *            - id
+ *            - subjectId
+ *            - userId
+ *            - grade
+ *            - date
+ *        properties:
+ *            id:
+ *              type: integer
+ *              description: the auto-generated id of the reservation
+ *            subjectId:
+ *              type: integer
+ *              description: link to subject
+ *            userId:
+ *              type: integer
+ *              description:  link to user
+ *            grade:
+ *              type: integer
+ *              description: user's grade for particular subject
+ *            date:
+ *              type: string
+ *              format: date
+ *              description: date of the grade
+ *        example:
+ *              subjectId: 1
+ *              userId: 1
+ *              grade: 3
+ *              date: 2023-10-05
+ */
+
 /**
  * @swagger
- *  /user/getusers:
+ * tags:
+ *  name: Grade
+ */
+
+/**
+ * @swagger
+ *  /log/getusers:
  *    get:
  *      summary: returns the list of all the users
  *      tags: [User]
@@ -60,7 +96,7 @@ logRouter.get('/getusers', logController.getUsers);
 
 /**
  * @swagger
- * /user/create:
+ * /log/create:
  *  post:
  *    summary: creates the new user
  *    tags: [User]
@@ -77,16 +113,12 @@ logRouter.get('/getusers', logController.getUsers);
  *                  name:
  *                    type: string
  *                    description: the user name
- *                  email:
+ *                  lastname:
  *                    type: string
  *                    description: the user email
- *                  vip:
- *                    type: boolean
- *                    description: the user's status
  *                example:
  *                    name: Olga
- *                    email: baby@gmail.com
- *                    vip: true
+ *                    lastname: Orlova
  *
  *    responses:
  *      200:
@@ -99,8 +131,54 @@ logRouter.get('/getusers', logController.getUsers);
  *        description: server error while creating user
  *
  */
-
 logRouter.post('/create', logController.create);
+
+/**
+ * @swagger
+ * /log:
+ *   get:
+ *      summary: get grades by prefered query params
+ *      tags: [Grade]
+ *      parameters:
+ *      - in: query
+ *        name: subjectId
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: date
+ *        description: parameter of the subject
+ *      - in: query
+ *        name: userId
+ *        required: false
+ *        schema:
+ *          type: string
+ *        description: parameter of the user
+ *      - in: query
+ *        name: grade
+ *        required: false
+ *        schema:
+ *          type: string
+ *        description: grade parameter
+ *      - in: query
+ *        name: date
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: date
+ *        description: parameter of the subject date
+ *      responses:
+ *       200:
+ *         description: grades list
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                  $ref: '#/components/schemas/Grade'
+ *       404:
+ *         description:  there are no such grades, sorry
+ */
+
 logRouter.get('/', logController.getUserLog);
 
 export default logRouter;

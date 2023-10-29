@@ -32,18 +32,8 @@ class StatController {
         }
     };
 
-    getGrades: RequestHandler = async (req, res, next) => {
-        try {
-            const grades = await statService.getGrades();
-            return res.json({ reservations: grades });
-        } catch (e: unknown) {
-            if (e instanceof Error) res.status(500).json(e.message);
-        }
-    };
-
     getUserStatistic: RequestHandler = async (req, res) => {
         const id = req.params.id;
-
         try {
             const response = await statService.getUserStatistic(id);
 

@@ -50,8 +50,8 @@ class LogService {
                 raw: false,
             });
 
-            if (!grades) {
-                return new EntityError(` запрос не содержит нужной информации`);
+            if (!grades || grades.length === 0) {
+                return new EntityError(`по выбранным параметрам нет оценок`);
             }
 
             return grades;

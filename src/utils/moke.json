@@ -35,73 +35,73 @@
             "userId": 1,
             "subjectId": 1,
             "grade": 5,
-            "date": "2023/10/26"
+            "date": "2023-10-26"
         },
         "grade2": {
             "userId": 1,
             "subjectId": 1,
             "grade": 5,
-            "date": "2023/10/8"
+            "date": "2023-10-09"
         },
         "grade3": {
             "userId": 1,
             "subjectId": 4,
             "grade": 3,
-            "date": "2023/10/5"
+            "date": "2023-10-05"
         },
         "grade4": {
             "userId": 1,
             "subjectId": 3,
             "grade": 5,
-            "date": "2023/10/1"
+            "date": "2023-10-01"
         },
         "grade5": {
             "userId": 1,
             "subjectId": 1,
             "grade": 1,
-            "date": "2023/10/26"
+            "date": "2023-10-26"
         },
         "grade6": {
             "userId": 1,
             "subjectId": 2,
             "grade": 2,
-            "date": "2023/10/8"
+            "date": "2023-10-08"
         },
         "grade7": {
             "userId": 1,
             "subjectId": 4,
             "grade": 5,
-            "date": "2023/10/5"
+            "date": "2023-10-05"
         },
         "grade8": {
             "userId": 1,
             "subjectId": 3,
             "grade": 3,
-            "date": "2023/10/1"
+            "date": "2023-10-01"
         },
         "grade9": {
             "userId": 1,
             "subjectId": 5,
             "grade": 5,
-            "date": "2023/10/1"
+            "date": "2023-10-01"
         },
         "grade10": {
             "userId": 2,
             "subjectId": 4,
             "grade": 5,
-            "date": "2023/10/5"
+            "date": "2023-10-05"
         },
         "grade11": {
             "userId": 2,
             "subjectId": 3,
             "grade": 3,
-            "date": "2023/10/1"
+            "date": "2023-10-01"
         },
         "grade12": {
             "userId": 2,
             "subjectId": 5,
             "grade": 5,
-            "date": "2023/10/1"
+            "date": "2023-10-01"
         }
     }
 }
