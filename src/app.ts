@@ -7,10 +7,10 @@ import http from 'http';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 
-import userRouter from './routes/user';
-import roomRouter from './routes/room';
-import reservationRouter from './routes/reservation';
+import logRouter from './routes/log';
 import { createMokeData } from './utils/createMoke';
+import statRouter from './routes/stat';
+const natsService = require('./services/nats.service');
 
 export const app = express();
 export const server = http.createServer(app);
@@ -27,18 +27,18 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'Booking service API',
+            title: 'Stat service API',
             version: '1.0.0',
             description: 'This is API implementation for test-task',
         },
 
         servers: [
             {
-                url: process.env.SERVER,
+                url: `${process.env.SERVER}:${process.env.PORT}`,
             },
         ],
     },
-    apis: [`${__dirname}/routes/*.js`],
+    apis: [`${__dirname}/routes/*.ts`],
 };
 
 const specs = swaggerJsDoc(options);
@@ -46,9 +46,8 @@ const specs = swaggerJsDoc(options);
 app.use(cors({ origin: process.env.CLIENT_URL, optionsSuccessStatus: 200 }));
 app.use(json());
 app.use(urlencoded({ extended: true }));
-app.use('/user', userRouter);
-app.use('/room', roomRouter);
-app.use('/reservation', reservationRouter);
+app.use('/statistic', statRouter);
+app.use('/log', logRouter);
 app.use(
     '/api-docs',
     swaggerUI.serve,
@@ -58,7 +57,9 @@ app.use(
 connection
     .sync({ force: true })
     .then(async () => {
-        createMokeData();
+        await createMokeData();
+        // natsService.gradeEmitter(5000);
+        // natsService.stream();
         console.log('Database synced successfully, lets go!');
     })
     .catch((err) => {

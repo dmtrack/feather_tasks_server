@@ -1,5 +1,5 @@
 import * as sequelize from 'sequelize-typescript';
-import { Reservation } from './reservation';
+import { Grade } from './grade';
 
 @sequelize.Table({
     timestamps: true,
@@ -25,14 +25,8 @@ export class User extends sequelize.Model {
         type: sequelize.DataType.STRING,
         allowNull: false,
     })
-    email!: string;
+    lastname!: string;
 
-    @sequelize.Column({
-        type: sequelize.DataType.BOOLEAN,
-        allowNull: false,
-    })
-    vip!: boolean;
-
-    @sequelize.HasMany(() => Reservation, { onDelete: 'cascade' })
-    userReservation!: Reservation[];
+    @sequelize.HasMany(() => Grade, { onDelete: 'cascade' })
+    userGrades!: Grade[];
 }

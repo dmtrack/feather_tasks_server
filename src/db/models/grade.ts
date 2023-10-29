@@ -1,12 +1,13 @@
 import * as sequelize from 'sequelize-typescript';
-import { Room } from './room';
+import { Subject } from './subject';
 import { User } from './user';
 
 @sequelize.Table({
     timestamps: false,
-    tableName: 'reservations',
+    tableName: 'grades',
+    freezeTableName: true,
 })
-export class Reservation extends sequelize.Model {
+export class Grade extends sequelize.Model {
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,
         autoIncrement: true,
@@ -16,38 +17,33 @@ export class Reservation extends sequelize.Model {
     })
     id!: number;
 
-    @sequelize.BelongsTo(() => Room)
-    room?: Room;
-    @sequelize.ForeignKey(() => Room)
-    @sequelize.Column({
-        type: sequelize.DataType.BIGINT,
-        allowNull: true,
-    })
-    roomId!: number;
-
     @sequelize.BelongsTo(() => User)
     user?: User;
     @sequelize.ForeignKey(() => User)
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,
-        allowNull: true,
+        allowNull: false,
     })
     userId!: number;
 
+    @sequelize.BelongsTo(() => Subject)
+    subject?: Subject;
+    @sequelize.ForeignKey(() => Subject)
     @sequelize.Column({
-        type: sequelize.DataType.BOOLEAN,
+        type: sequelize.DataType.BIGINT,
+        allowNull: false,
     })
-    vip!: boolean;
+    subjectId!: number;
+
+    @sequelize.Column({
+        type: sequelize.DataType.INTEGER,
+        allowNull: false,
+    })
+    grade!: number;
 
     @sequelize.Column({
         type: sequelize.DataType.DATE,
         allowNull: false,
     })
-    dateStart!: string;
-
-    @sequelize.Column({
-        type: sequelize.DataType.DATE,
-        allowNull: false,
-    })
-    dateEnd!: string;
+    date!: string;
 }
