@@ -52,7 +52,7 @@
         "grade4": {
             "userId": 1,
             "subjectId": 3,
-            "grade": 10,
+            "grade": 5,
             "date": "2023/10/1"
         },
         "grade5": {
@@ -77,6 +77,30 @@
             "userId": 1,
             "subjectId": 3,
             "grade": 3,
+            "date": "2023/10/1"
+        },
+        "grade9": {
+            "userId": 1,
+            "subjectId": 5,
+            "grade": 5,
+            "date": "2023/10/1"
+        },
+        "grade10": {
+            "userId": 2,
+            "subjectId": 4,
+            "grade": 5,
+            "date": "2023/10/5"
+        },
+        "grade11": {
+            "userId": 2,
+            "subjectId": 3,
+            "grade": 3,
+            "date": "2023/10/1"
+        },
+        "grade12": {
+            "userId": 2,
+            "subjectId": 5,
+            "grade": 5,
             "date": "2023/10/1"
         }
     }

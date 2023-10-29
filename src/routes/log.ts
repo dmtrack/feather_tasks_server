@@ -101,5 +101,6 @@ logRouter.get('/getusers', logController.getUsers);
  */
 
 logRouter.post('/create', logController.create);
+logRouter.get('/', logController.getUserLog);
 
 export default logRouter;

@@ -29,6 +29,24 @@ class LogController {
             if (e instanceof Error) res.status(400).json(e.message);
         }
     };
+    getUserLog: RequestHandler = async (req, res) => {
+        const id = req.query.userId;
+        const query = req.query;
+
+        try {
+            const response = await logService.getUserLog(query);
+
+            if (!(response instanceof EntityError)) {
+                res.status(200).json({
+                    response,
+                });
+            } else {
+                res.status(400).json(`запрос не содержит нужной информации`);
+            }
+        } catch (e: unknown) {
+            if (e instanceof Error) res.status(400).json(e.message);
+        }
+    };
 }
 
 export default new LogController();

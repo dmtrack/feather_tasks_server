@@ -36,4 +36,8 @@ export const createMokeData = async () => {
     await StatService.create(mokeData.grades.grade6);
     await StatService.create(mokeData.grades.grade7);
     await StatService.create(mokeData.grades.grade8);
+    await StatService.create(mokeData.grades.grade9);
+    await StatService.create(mokeData.grades.grade10);
+    await StatService.create(mokeData.grades.grade11);
+    await StatService.create(mokeData.grades.grade12);
 };
