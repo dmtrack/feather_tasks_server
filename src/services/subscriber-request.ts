@@ -9,7 +9,7 @@ const subscriberRequest = async () => {
     const nc = await connect({ servers: [`${natsServer}:${natsPort}`] });
     console.log(`STREAM SUBSCRIBER connected to NATS: ${process.pid}`);
 
-    const payload = { personalCode: '1' };
+    const payload = { personalCode: '10' };
     let response = await nc.request('students.v1.get', JSON.stringify(payload));
     console.log(response.string());
 };

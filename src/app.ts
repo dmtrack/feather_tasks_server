@@ -27,7 +27,7 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'Booking service API',
+            title: 'Stat service API',
             version: '1.0.0',
             description: 'This is API implementation for test-task',
         },

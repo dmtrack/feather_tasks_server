@@ -129,32 +129,6 @@ statRouter.post('/create', statController.create);
 
 /**
  * @swagger
- * /reservation/delete/{id}:
- *   delete:
- *     summary: Remove the reservation by id
- *     tags: [Reservation]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The reservation id
- *
- *     responses:
- *       200:
- *         description: The reservation with id was successfully deleted
- *       404:
- *         description: there is no reservation with id in data-base
- */
-
-// reservationRouter.delete(
-//     '/delete/:id',
-//     reservationController.deleteReservation
-// );
-
-/**
- * @swagger
  * /statistic/{id}:
  *   get:
  *     summary: Get user's statistic by id
