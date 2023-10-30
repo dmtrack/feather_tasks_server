@@ -49,7 +49,7 @@ const statRouter = Router();
  *        properties:
  *            id:
  *              type: integer
- *              description: the auto-generated id of the reservation
+ *              description: the auto-generated id of the grade
  *            subjectId:
  *              type: integer
  *              description: link to subject
@@ -115,13 +115,13 @@ const statRouter = Router();
  *
  *    responses:
  *      200:
- *        description: reservation was created
+ *        description: grade was created
  *        content:
  *           application/json:
  *               schema:
- *                  $ref: '#/components/schemas/Reservation'
- *      400:
- *        description: room is occupied on these dates
+ *                  $ref: '#/components/schemas/Grade'
+ *      500:
+ *        description: error while creating grades has occured
  *
  */
 

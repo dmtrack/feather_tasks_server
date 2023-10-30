@@ -6,7 +6,6 @@ import cors from 'cors';
 import http from 'http';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
-
 import logRouter from './routes/log';
 import { createMokeData } from './utils/createMoke';
 import statRouter from './routes/stat';

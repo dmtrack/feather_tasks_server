@@ -49,7 +49,7 @@ const logRouter = Router();
  *        properties:
  *            id:
  *              type: integer
- *              description: the auto-generated id of the reservation
+ *              description: the auto-generated id of the grade
  *            subjectId:
  *              type: integer
  *              description: link to subject
