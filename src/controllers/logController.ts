@@ -24,6 +24,7 @@ class LogController {
     getUsers: RequestHandler = async (req, res, next) => {
         try {
             const users = await logService.getUsers();
+            await console.log(users, 'users');
             return res.json({ data: users });
         } catch (e: unknown) {
             if (e instanceof Error) res.status(400).json(e.message);
