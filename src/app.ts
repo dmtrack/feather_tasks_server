@@ -57,8 +57,8 @@ connection
     .sync({ force: true })
     .then(async () => {
         await createMokeData();
-        // natsService.gradeEmitter(5000);
-        // natsService.stream();
+        natsService.gradeEmitter(5000);
+        natsService.stream();
         console.log('Database synced successfully, lets go!');
     })
     .catch((err) => {
