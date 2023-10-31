@@ -13,13 +13,13 @@ const connection = new Sequelize({
     database: process.env.DB_NAME,
     logging: false,
     models: [Grade, User, Subject],
-    // dialectOptions: {
-    //     ssl: {
-    //         require: true,
-    //         rejectUnauthorized: false,
-    //     },
-    //     native: true,
-    // },
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false,
+        },
+        native: true,
+    },
 });
 
 export default connection;
