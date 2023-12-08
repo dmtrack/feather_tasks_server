@@ -1,8 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Grade } from './models/grade';
 import dotenv from 'dotenv';
 import { User } from './models/user';
-import { Subject } from './models/subject';
+import { Todo } from './models/todo';
 dotenv.config();
 
 const connection = new Sequelize({
@@ -12,13 +11,13 @@ const connection = new Sequelize({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     logging: false,
-    models: [Grade, User, Subject],
+    models: [User, Todo],
     dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false,
-        },
-        native: true,
+        //     ssl: {
+        //         require: true,
+        //         rejectUnauthorized: false,
+        //     },
+        //     native: true,
     },
 });
 

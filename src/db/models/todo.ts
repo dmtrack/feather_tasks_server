@@ -1,19 +1,16 @@
 import * as sequelize from 'sequelize-typescript';
-import { Subject } from './subject';
 import { User } from './user';
 
 @sequelize.Table({
     timestamps: false,
-    tableName: 'grades',
-    freezeTableName: true,
+    tableName: 'todos',
 })
-export class Grade extends sequelize.Model {
+export class Todo extends sequelize.Model {
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
-        unique: true,
     })
     id!: number;
 
@@ -26,24 +23,30 @@ export class Grade extends sequelize.Model {
     })
     userId!: number;
 
-    @sequelize.BelongsTo(() => Subject)
-    subject?: Subject;
-    @sequelize.ForeignKey(() => Subject)
     @sequelize.Column({
-        type: sequelize.DataType.BIGINT,
-        allowNull: false,
+        type: sequelize.DataType.STRING,
     })
-    subjectId!: number;
+    name!: boolean;
 
     @sequelize.Column({
-        type: sequelize.DataType.INTEGER,
-        allowNull: false,
+        type: sequelize.DataType.STRING,
     })
-    grade!: number;
+    description!: boolean;
 
     @sequelize.Column({
         type: sequelize.DataType.DATE,
         allowNull: false,
     })
-    date!: string;
+    dateStart!: string;
+
+    @sequelize.Column({
+        type: sequelize.DataType.DATE,
+        allowNull: false,
+    })
+    dateEnd!: string;
+
+    @sequelize.Column({
+        type: sequelize.DataType.BOOLEAN,
+    })
+    finished!: boolean;
 }

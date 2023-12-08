@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import logController from '../controllers/logController';
+import todoController from '../controllers/todoController';
 
-const logRouter = Router();
+const todoRouter = Router();
 
 /**
  * @swagger
@@ -78,7 +78,7 @@ const logRouter = Router();
 
 /**
  * @swagger
- *  /log/getusers:
+ *  /todo/getusers:
  *    get:
  *      summary: returns the list of all the users
  *      tags: [User]
@@ -92,11 +92,11 @@ const logRouter = Router();
  *                items:
  *                  $ref: '#/components/schemas/User'
  */
-logRouter.get('/getusers', logController.getUsers);
+todoRouter.get('/gettodos', todoController.getTodos);
 
 /**
  * @swagger
- * /log/create:
+ * /todo/create:
  *  post:
  *    summary: creates the new user
  *    tags: [User]
@@ -131,11 +131,11 @@ logRouter.get('/getusers', logController.getUsers);
  *        description: server error while creating user
  *
  */
-logRouter.post('/create', logController.create);
+todoRouter.post('/create', todoController.create);
 
 /**
  * @swagger
- * /log:
+ * /todo:
  *   get:
  *      summary: get grades by prefered query params
  *      tags: [Grade]
@@ -179,6 +179,8 @@ logRouter.post('/create', logController.create);
  *         description:  there are no such grades, sorry
  */
 
-logRouter.get('/', logController.getUserLog);
+todoRouter.get('/getusertodo/:id', todoController.getUserTodo);
 
-export default logRouter;
+todoRouter.delete('/destroytodo/:id', todoController.destroyTodo);
+
+export default todoRouter;

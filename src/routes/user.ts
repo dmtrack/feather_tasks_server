@@ -1,7 +1,7 @@
 import { Router } from 'express';
-const statController = require('../controllers/statController');
+const userController = require('../controllers/userController');
 
-const statRouter = Router();
+const userRouter = Router();
 
 /**
  * @swagger
@@ -125,7 +125,7 @@ const statRouter = Router();
  *
  */
 
-statRouter.post('/create', statController.create);
+userRouter.post('/create', userController.create);
 
 /**
  * @swagger
@@ -151,7 +151,9 @@ statRouter.post('/create', statController.create);
  *       500:
  *         description:  there is no user with such id
  */
+userRouter.get('/getusers', userController.getUsers);
+userRouter.get('/:id', userController.getUserById);
 
-statRouter.get('/:id', statController.getUserStatistic);
+userRouter.delete('/destroyuser/:id', userController.destroyUser);
 
-export default statRouter;
+export default userRouter;

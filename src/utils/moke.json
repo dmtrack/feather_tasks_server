@@ -1,107 +1,40 @@
 {
-    "subjects": {
-        "subject1": {
-            "name": "Math"
-        },
-        "subject2": {
-            "name": "English"
-        },
-        "subject3": {
-            "name": "Literature"
-        },
-        "subject4": {
-            "name": "Geography"
-        },
-        "subject5": {
-            "name": "Sport"
-        },
-        "subject6": {
-            "name": "Arts"
-        }
-    },
     "users": {
         "user1": {
             "name": "Dmitriy",
-            "lastname": "Maslov"
+            "lastname": "Maslov",
+            "email": "dmtrack.dev@gmail.com"
         },
         "user2": {
             "name": "Ivan",
-            "lastname": "Petrov"
+            "lastname": "Maslov",
+            "email": "ivn.maslov2014@gmail.com"
         }
     },
-
-    "grades": {
-        "grade1": {
+    "todos": {
+        "todo1": {
             "userId": 1,
-            "subjectId": 1,
-            "grade": 5,
-            "date": "2023-10-26"
+            "name": "create server",
+            "description": "task 1 desc",
+            "dateStart": "2023/10/14",
+            "dateEnd": "2023/10/16",
+            "finished": "true"
         },
-        "grade2": {
+        "todo2": {
             "userId": 1,
-            "subjectId": 1,
-            "grade": 5,
-            "date": "2023-10-09"
+            "name": "create client",
+            "description": "task 2 desc",
+            "dateStart": "2023/09/10",
+            "dateEnd": "2023/10/16",
+            "finished": "false"
         },
-        "grade3": {
-            "userId": 1,
-            "subjectId": 4,
-            "grade": 3,
-            "date": "2023-10-05"
-        },
-        "grade4": {
-            "userId": 1,
-            "subjectId": 3,
-            "grade": 5,
-            "date": "2023-10-01"
-        },
-        "grade5": {
-            "userId": 1,
-            "subjectId": 1,
-            "grade": 1,
-            "date": "2023-10-26"
-        },
-        "grade6": {
-            "userId": 1,
-            "subjectId": 2,
-            "grade": 2,
-            "date": "2023-10-08"
-        },
-        "grade7": {
-            "userId": 1,
-            "subjectId": 4,
-            "grade": 5,
-            "date": "2023-10-05"
-        },
-        "grade8": {
-            "userId": 1,
-            "subjectId": 3,
-            "grade": 3,
-            "date": "2023-10-01"
-        },
-        "grade9": {
-            "userId": 1,
-            "subjectId": 5,
-            "grade": 5,
-            "date": "2023-10-01"
-        },
-        "grade10": {
+        "todo3": {
             "userId": 2,
-            "subjectId": 4,
-            "grade": 5,
-            "date": "2023-10-05"
-        },
-        "grade11": {
-            "userId": 2,
-            "subjectId": 3,
-            "grade": 3,
-            "date": "2023-10-01"
-        },
-        "grade12": {
-            "userId": 2,
-            "subjectId": 5,
-            "grade": 5,
-            "date": "2023-10-01"
+            "name": "read a book",
+            "description": "task 3 desc",
+            "dateStart": "2023/10/14",
+            "dateEnd": "2023/10/16",
+            "finished": "false"
         }
     }
 }

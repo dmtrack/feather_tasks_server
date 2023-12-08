@@ -1,5 +1,5 @@
 import * as sequelize from 'sequelize-typescript';
-import { Grade } from './grade';
+import { Todo } from './todo';
 
 @sequelize.Table({
     timestamps: true,
@@ -11,7 +11,6 @@ export class User extends sequelize.Model {
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
-        unique: true,
     })
     id!: number;
 
@@ -27,6 +26,12 @@ export class User extends sequelize.Model {
     })
     lastname!: string;
 
-    @sequelize.HasMany(() => Grade, { onDelete: 'cascade' })
-    userGrades!: Grade[];
+    @sequelize.Column({
+        type: sequelize.DataType.STRING,
+        allowNull: false,
+    })
+    email!: string;
+
+    @sequelize.HasMany(() => Todo, { onDelete: 'cascade' })
+    userTodos!: Todo[];
 }
