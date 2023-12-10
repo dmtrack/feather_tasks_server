@@ -1,39 +1,38 @@
+import { Transaction } from 'sequelize';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
 import { User } from '../db/models/user';
 import connection from '../db/config';
-import { Transaction } from 'sequelize';
 
 export class UserService {
     async create(props: User) {
         try {
             const result = await connection.transaction(
                 async (t: Transaction) => {
-                    let { name, lastname, email } = props;
+                    const { name, login, password } = props;
                     const user = await User.findOne({
-                        where: { email: email },
+                        where: { login },
                         transaction: t,
                     });
                     if (!user) {
                         const newUser: User = await User.create(
                             {
-                                name: name,
-                                lastname: lastname,
-                                email: email,
+                                name,
+                                login,
+                                password,
                             },
-                            { transaction: t }
+                            { transaction: t },
                         );
                         return newUser;
                     }
-                }
+                },
             );
             return result;
         } catch (e: unknown) {
             if (e instanceof DBError) {
                 return new DBError('data base error', e);
-            } else {
-                return new Error('unknown error was occured');
             }
+            return new Error('unknown error was occured');
         }
     }
 
@@ -44,21 +43,20 @@ export class UserService {
         } catch (e: unknown) {
             if (e instanceof DBError) {
                 return new DBError('data base error', e);
-            } else {
-                return new Error('unknown error was occured');
             }
+            return new Error('unknown error was occured');
         }
     }
 
     async getUserById(id: number) {
         try {
             const user = await User.findOne({
-                where: { id: id },
+                where: { id },
             });
 
             if (!user) {
                 return new EntityError(
-                    `пользователь с указанным персональным кодом: ${id} не найден`
+                    `пользователь с указанным персональным кодом: ${id} не найден`,
                 );
             }
 
@@ -66,17 +64,17 @@ export class UserService {
         } catch (e: unknown) {
             if (e instanceof DBError) {
                 return new DBError('data base error', e);
-            } else {
-                return new Error('unknown error was occured');
             }
+            return new Error('unknown error was occured');
         }
     }
+
     async destroyUser(id: number) {
         try {
             const todo = await User.findByPk(id);
             if (!todo) {
                 return new EntityError(
-                    `there is no user with id:${id} in data-base`
+                    `there is no user with id:${id} in data-base`,
                 );
             }
             await User.destroy({ where: { id } });
@@ -84,9 +82,8 @@ export class UserService {
         } catch (e: unknown) {
             if (e instanceof DBError) {
                 return new DBError('data base error', e);
-            } else {
-                return new Error('unknown error was occured');
             }
+            return new Error('unknown error was occured');
         }
     }
 }

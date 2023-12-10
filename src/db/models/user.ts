@@ -1,5 +1,5 @@
 import * as sequelize from 'sequelize-typescript';
-import { Todo } from './todo';
+import { Task } from './task';
 
 @sequelize.Table({
     timestamps: true,
@@ -24,14 +24,14 @@ export class User extends sequelize.Model {
         type: sequelize.DataType.STRING,
         allowNull: false,
     })
-    lastname!: string;
+    login!: string;
 
     @sequelize.Column({
         type: sequelize.DataType.STRING,
         allowNull: false,
     })
-    email!: string;
+    password!: string;
 
-    @sequelize.HasMany(() => Todo, { onDelete: 'cascade' })
-    userTodos!: Todo[];
+    @sequelize.HasMany(() => Task, { onDelete: 'cascade' })
+    userTasks!: Task[];
 }

@@ -1,45 +1,32 @@
 import { Transaction } from 'sequelize';
 import connection from '../db/config';
-import { Todo } from '../db/models/todo';
+import { Task } from '../db/models/task';
 import { User } from '../db/models/user';
-import { AuthError } from '../exceptions/auth-error';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
 
-interface IQuery {
-    [key: string]: string;
-}
-class todoService {
-    async create(todo: Todo) {
+class TaskService {
+    async create(task: Task) {
         await connection.transaction(async (t: Transaction) => {
             try {
-                let {
-                    userId,
-                    name,
-                    description,
-                    dateStart,
-                    dateEnd,
-                    finished,
-                } = todo;
+                const { userId, name, description, finished } = task;
 
-                const newTodo: Todo = await Todo.create(
+                const newTask: Task = await Task.create(
                     {
-                        userId: userId,
-                        name: name,
-                        description: description,
-                        dateStart: dateStart,
-                        dateEnd: dateEnd,
-                        finished: finished,
+                        userId,
+                        name,
+                        description,
+
+                        finished,
                     },
-                    { transaction: t }
+                    { transaction: t },
                 );
-                return newTodo;
+                return newTask;
             } catch (e: unknown) {
                 if (e instanceof DBError) {
                     return new DBError('data base error', e);
-                } else {
-                    return new Error('unknown error was occured');
                 }
+                return new Error('unknown error was occured');
             }
         });
     }
@@ -51,60 +38,57 @@ class todoService {
                     const user = await User.findByPk(id);
                     if (!user) {
                         return new EntityError(
-                            `there is no user with id:${id} in data-base`
+                            `there is no user with id:${id} in data-base`,
                         );
                     }
 
-                    const todos = await Todo.findAll({
+                    const todos = await Task.findAll({
                         where: { userId: id },
                         transaction: t,
                         order: [['dateStart', 'DESC']],
                     });
 
                     return todos;
-                }
+                },
             );
             return result;
         } catch (e: unknown) {
             if (e instanceof DBError) {
                 return new DBError('data base error', e);
-            } else {
-                return new Error('unknown error was occured');
             }
+            return new Error('unknown error was occured');
         }
     }
 
     async getTodos() {
         try {
-            const todos = await Todo.findAll();
+            const todos = await Task.findAll();
             return todos;
         } catch (e: unknown) {
             if (e instanceof DBError) {
                 return new DBError('data base error', e);
-            } else {
-                return new Error('unknown error was occured');
             }
+            return new Error('unknown error was occured');
         }
     }
 
     async destroyTodo(id: number) {
         try {
-            const todo = await Todo.findByPk(id);
+            const todo = await Task.findByPk(id);
             if (!todo) {
                 return new EntityError(
-                    `there is no todo with id:${id} in data-base`
+                    `there is no todo with id:${id} in data-base`,
                 );
             }
-            await Todo.destroy({ where: { id } });
+            await Task.destroy({ where: { id } });
             return `задача с id:${id} удалена`;
         } catch (e: unknown) {
             if (e instanceof DBError) {
                 return new DBError('data base error', e);
-            } else {
-                return new Error('unknown error was occured');
             }
+            return new Error('unknown error was occured');
         }
     }
 }
 
-module.exports = new todoService();
+module.exports = new TaskService();

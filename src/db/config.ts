@@ -1,7 +1,8 @@
 import { Sequelize } from 'sequelize-typescript';
 import dotenv from 'dotenv';
 import { User } from './models/user';
-import { Todo } from './models/todo';
+import { Todo } from './models/task';
+
 dotenv.config();
 
 const connection = new Sequelize({

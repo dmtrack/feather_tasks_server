@@ -5,10 +5,10 @@ const port = process.env.PORT;
 const start = async () => {
     try {
         server.listen(port, () => {
-            console.log(`Server has succesfully started on port:${port}`);
+            console.warn(`Server has succesfully started on port:${port}`);
         });
     } catch (e) {
-        console.log(e);
+        console.warn(e);
     }
 };
 

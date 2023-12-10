@@ -2,38 +2,40 @@ import { RequestHandler } from 'express';
 import { User } from '../db/models/user';
 import { EntityError } from '../exceptions/entity-error';
 
-const todoService = require('../services/todo.service');
-class todoController {
-    create: RequestHandler = async (req, res, next) => {
-        const { name, lastname } = req.body;
+const taskService = require('../services/task.service');
+
+class TaskController {
+    create: RequestHandler = async (req, res) => {
+        const { name, login } = req.body;
         try {
-            const response: User = await todoService.create({
-                name: name,
-                lastname: lastname,
+            const response: User = await taskService.create({
+                name,
+                login,
             });
 
             res.json({
                 name: response.name,
-                lastname: response.lastname,
+                lastname: response.login,
             });
         } catch (e: unknown) {
             if (e instanceof Error) res.status(400).json(e.message);
         }
     };
 
-    getTodos: RequestHandler = async (req, res, next) => {
+    getTasks: RequestHandler = async (req, res) => {
         try {
-            const todos = await todoService.getTodos();
+            const todos = await taskService.getTodos();
 
             return res.json(todos);
         } catch (e: unknown) {
             if (e instanceof Error) res.status(400).json(e.message);
         }
     };
-    getUserTodo: RequestHandler = async (req, res) => {
-        const id = req.params.id;
+
+    getUserTasks: RequestHandler = async (req, res) => {
+        const { id } = req.params;
         try {
-            const response = await todoService.getUserTodo(id);
+            const response = await taskService.getUserTodo(id);
 
             if (!(response instanceof EntityError)) {
                 res.status(200).json({
@@ -47,10 +49,10 @@ class todoController {
         }
     };
 
-    destroyTodo: RequestHandler = async (req, res) => {
-        const id = req.params.id;
+    destroyTask: RequestHandler = async (req, res) => {
+        const { id } = req.params;
         try {
-            const response = await todoService.destroyTodo(id);
+            const response = await taskService.destroyTodo(id);
 
             if (!(response instanceof EntityError)) {
                 res.status(200).json(response);
@@ -63,4 +65,4 @@ class todoController {
     };
 }
 
-export default new todoController();
+export default new TaskController();

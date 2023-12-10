@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import todoController from '../controllers/todoController';
+import taskController from '../controllers/taskController';
 
-const todoRouter = Router();
+const taskRouter = Router();
 
 /**
  * @swagger
@@ -92,7 +92,7 @@ const todoRouter = Router();
  *                items:
  *                  $ref: '#/components/schemas/User'
  */
-todoRouter.get('/gettodos', todoController.getTodos);
+taskRouter.get('/gettasks', taskController.getTasks);
 
 /**
  * @swagger
@@ -131,7 +131,7 @@ todoRouter.get('/gettodos', todoController.getTodos);
  *        description: server error while creating user
  *
  */
-todoRouter.post('/create', todoController.create);
+taskRouter.post('/create', taskController.create);
 
 /**
  * @swagger
@@ -179,8 +179,8 @@ todoRouter.post('/create', todoController.create);
  *         description:  there are no such grades, sorry
  */
 
-todoRouter.get('/getusertodo/:id', todoController.getUserTodo);
+taskRouter.get('/getusertasks/:id', taskController.getUserTasks);
 
-todoRouter.delete('/destroytodo/:id', todoController.destroyTodo);
+taskRouter.delete('/destroytask/:id', taskController.destroyTask);
 
-export default todoRouter;
+export default taskRouter;

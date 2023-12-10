@@ -1,5 +1,4 @@
 import express from 'express';
-import connection from './db/config';
 import dotenv from 'dotenv';
 import { urlencoded, json } from 'body-parser';
 import cors from 'cors';
@@ -7,9 +6,11 @@ import http from 'http';
 
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
+import connection from './db/config';
 
 import userRouter from './routes/user';
-import todoRouter from './routes/todo';
+import todoRouter from './routes/task';
+import authRouter from './routes/auth';
 
 import { createMokeData } from './utils/createMoke';
 
@@ -21,7 +22,7 @@ const CSS_URL =
 dotenv.config();
 app.options(
     '*',
-    cors({ origin: process.env.CLIENT_URL, optionsSuccessStatus: 200 })
+    cors({ origin: process.env.CLIENT_URL, optionsSuccessStatus: 200 }),
 );
 
 const options = {
@@ -44,15 +45,21 @@ const options = {
 
 const specs = swaggerJsDoc(options);
 
-app.use(cors({ origin: process.env.CLIENT_URL, optionsSuccessStatus: 200 }));
+app.use(
+    cors({
+        origin: process.env.CLIENT_URL || 'http://localhost:3000',
+        optionsSuccessStatus: 200,
+    }),
+);
 app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use('/user', userRouter);
 app.use('/todo', todoRouter);
+app.use('/auth', authRouter);
 app.use(
     '/api-docs',
     swaggerUI.serve,
-    swaggerUI.setup(specs, { explorer: true, customCss: CSS_URL })
+    swaggerUI.setup(specs, { explorer: true, customCss: CSS_URL }),
 );
 
 connection

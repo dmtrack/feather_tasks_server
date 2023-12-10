@@ -3,9 +3,9 @@ import { User } from './user';
 
 @sequelize.Table({
     timestamps: false,
-    tableName: 'todos',
+    tableName: 'tasks',
 })
-export class Todo extends sequelize.Model {
+export class Task extends sequelize.Model {
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,
         autoIncrement: true,
@@ -16,6 +16,7 @@ export class Todo extends sequelize.Model {
 
     @sequelize.BelongsTo(() => User)
     user?: User;
+
     @sequelize.ForeignKey(() => User)
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,
@@ -32,18 +33,6 @@ export class Todo extends sequelize.Model {
         type: sequelize.DataType.STRING,
     })
     description!: boolean;
-
-    @sequelize.Column({
-        type: sequelize.DataType.DATE,
-        allowNull: false,
-    })
-    dateStart!: string;
-
-    @sequelize.Column({
-        type: sequelize.DataType.DATE,
-        allowNull: false,
-    })
-    dateEnd!: string;
 
     @sequelize.Column({
         type: sequelize.DataType.BOOLEAN,

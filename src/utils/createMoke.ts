@@ -1,7 +1,6 @@
-import { User } from '../db/models/user';
-
 import { DBError } from '../exceptions/db-error';
-import mokeData from '../utils/moke.json';
+import mokeData from './moke.json';
+
 const TodoService = require('../services/todo.service');
 const UserService = require('../services/user.service');
 
@@ -16,8 +15,8 @@ export const createMokeData = async () => {
     } catch (e: unknown) {
         if (e instanceof DBError) {
             return new DBError('data base error', e);
-        } else {
-            return new Error('unknown error was occured');
         }
+        return new Error('unknown error was occured');
     }
+    return '';
 };

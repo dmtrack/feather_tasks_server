@@ -1,15 +1,22 @@
 import { RequestHandler } from 'express';
 import { User } from '../db/models/user';
 import { EntityError } from '../exceptions/entity-error';
+import { checkBody, createError } from '../services/error.service';
 
-const userService = require('../services/user.service');
+const authService = require('../services/auth.service');
 
-class UserController {
-    create: RequestHandler = async (req, res) => {
+class AuthController {
+    signUp: RequestHandler = async (req, res) => {
+        const bodyError = checkBody(req.body, ['name', 'login', 'password']);
+        if (bodyError) {
+            return res
+                .status(400)
+                .send(createError(400, `bad request: ${bodyError}`));
+        }
+        const { login, name, password } = req.body;
+
         try {
-            const { name, password, login } = req.body;
-
-            const response: User = await userService.create({
+            const response: User = await authService.create({
                 name,
                 login,
                 password,
@@ -18,8 +25,8 @@ class UserController {
             if (!(response instanceof EntityError)) {
                 res.status(200).json({
                     id: response.id,
-                    name: response.login,
-                    email: response.password,
+                    name: response.name,
+                    email: response.login,
                 });
             } else {
                 res.status(500).json('server error');
@@ -29,9 +36,9 @@ class UserController {
         }
     };
 
-    getUsers: RequestHandler = async (req, res) => {
+    signIn: RequestHandler = async (req, res) => {
         try {
-            const response = await userService.getUsers();
+            const response = await authService.getUsers();
             res.status(200).json({
                 response,
             });
@@ -40,10 +47,10 @@ class UserController {
         }
     };
 
-    getUserById: RequestHandler = async (req, res) => {
+    logOut: RequestHandler = async (req, res) => {
         const { id } = req.params;
         try {
-            const response = await userService.getUserById(id);
+            const response = await authService.getUserById(id);
             if (!(response instanceof EntityError)) {
                 res.status(200).json({
                     response,
@@ -58,20 +65,7 @@ class UserController {
         }
     };
 
-    destroyUser: RequestHandler = async (req, res) => {
-        const { id } = req.params;
-        try {
-            const response = await userService.destroyUser(id);
-
-            if (!(response instanceof EntityError)) {
-                res.status(200).json(response);
-            } else {
-                return `пользователь с указанным персональным кодом: ${id} не найден`;
-            }
-        } catch (e: unknown) {
-            if (e instanceof Error) res.status(400).json(e.message);
-        }
-    };
+    check: RequestHandler = async (req, res) =>
+        res.status(200).send(createError(200, 'success'));
 }
-
-module.exports = new UserController();
+export default new AuthController();

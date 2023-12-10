@@ -30,7 +30,7 @@ var __awaiter =
                     : adopt(result.value).then(fulfilled, rejected);
             }
             step(
-                (generator = generator.apply(thisArg, _arguments || [])).next()
+                (generator = generator.apply(thisArg, _arguments || [])).next(),
             );
         });
     };
@@ -59,7 +59,7 @@ exports.app.options(
     (0, cors_1.default)({
         origin: process.env.CLIENT_URL,
         optionsSuccessStatus: 200,
-    })
+    }),
 );
 const options = {
     definition: {
@@ -82,7 +82,7 @@ exports.app.use(
     (0, cors_1.default)({
         origin: process.env.CLIENT_URL,
         optionsSuccessStatus: 200,
-    })
+    }),
 );
 exports.app.use((0, body_parser_1.json)());
 exports.app.use((0, body_parser_1.urlencoded)({ extended: true }));
@@ -90,7 +90,7 @@ exports.app.use('/user', user_1.default);
 exports.app.use(
     '/api-docs',
     swagger_ui_express_1.default.serve,
-    swagger_ui_express_1.default.setup(specs, { explorer: true })
+    swagger_ui_express_1.default.setup(specs, { explorer: true }),
 );
 // app.use('/room', roomRouter);
 config_1.default
@@ -99,7 +99,7 @@ config_1.default
         __awaiter(void 0, void 0, void 0, function* () {
             (0, createMoke_1.createMokeData)();
             console.todo('Database synced successfully, lets go!');
-        })
+        }),
     )
     .catch((err) => {
         console.todo('Err', err);
