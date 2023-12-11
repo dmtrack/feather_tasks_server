@@ -1,10 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const userController_1 = __importDefault(require("../controllers/userController"));
+const userController = require('../controllers/userController');
 const userRouter = (0, express_1.Router)();
 /**
  * @swagger
@@ -15,8 +12,7 @@ const userRouter = (0, express_1.Router)();
  *        required:
  *            - id
  *            - name
- *            - email
- *            - vip
+ *            - lastname
  *        properties:
  *            id:
  *              type: integer
@@ -24,18 +20,132 @@ const userRouter = (0, express_1.Router)();
  *            name:
  *              type: string
  *              description: the user name
- *            email:
+ *            lastname:
  *              type: string
- *              description: the user email
- *            vip:
- *              type: boolean
- *              description: the user's status
+ *              description: the user lastname
  *        example:
  *              id: 1
- *              name: Pavel
- *              email: storm
- *              vip: true
+ *              name: Dmitriy
+ *              lastname: Maslov
  */
-userRouter.post('/create', userController_1.default.create);
-userRouter.get('/getusers', userController_1.default.getUsers);
+/**
+ * @swagger
+ * tags:
+ *  name: User
+ */
+/** @swagger
+ * components:
+ *    schemas:
+ *      Grade:
+ *        type: object
+ *        required:
+ *            - id
+ *            - subjectId
+ *            - userId
+ *            - grade
+ *            - date
+ *        properties:
+ *            id:
+ *              type: integer
+ *              description: the auto-generated id of the grade
+ *            subjectId:
+ *              type: integer
+ *              description: link to subject
+ *            userId:
+ *              type: integer
+ *              description:  link to user
+ *            grade:
+ *              type: integer
+ *              description: user's grade for particular subject
+ *            date:
+ *              type: string
+ *              format: date
+ *              description: date of the grade
+ *        example:
+ *              subjectId: 1
+ *              userId: 1
+ *              grade: 3
+ *              date: 2023-10-05
+ */
+/**
+ * @swagger
+ * tags:
+ *  name: Grade
+ */
+/**
+ * @swagger
+ * /statistic/create:
+ *  post:
+ *    summary: creates the new grade
+ *    tags: [Grade]
+ *    requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *                required:
+ *                 - userId
+ *                 - subjectId
+ *                 - grade
+ *                 - date
+ *                properties:
+ *                  userId:
+ *                    type: integer
+ *                    description: the user's id
+ *                  subjectId:
+ *                    type: integer
+ *                    description: the subject's id
+ *                  dateStart:
+ *                    type: string
+ *                    format: date
+ *                    description: start date
+ *                  date:
+ *                    type: string
+ *                    format: date
+ *                    description: grade's date
+ *                example:
+ *                    userId: 1
+ *                    subjectId: 1
+ *                    grade: 3
+ *                    date: 2023-10-14
+ *
+ *    responses:
+ *      200:
+ *        description: grade was created
+ *        content:
+ *           application/json:
+ *               schema:
+ *                  $ref: '#/components/schemas/Grade'
+ *      500:
+ *        description: error while creating grades has occured
+ *
+ */
+userRouter.post('/create', userController.create);
+/**
+ * @swagger
+ * /statistic/{id}:
+ *   get:
+ *     summary: Get user's statistic by id
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user id
+ *     responses:
+ *       200:
+ *         description: user's statistic
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *
+ *       500:
+ *         description:  there is no user with such id
+ */
+userRouter.get('/getusers', userController.getUsers);
+userRouter.get('/:id', userController.getUserById);
+userRouter.delete('/destroyuser/:id', userController.destroyUser);
 exports.default = userRouter;

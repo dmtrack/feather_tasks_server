@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
 import dotenv from 'dotenv';
 import { User } from './models/user';
-import { Todo } from './models/task';
+import { Task } from './models/task';
 
 dotenv.config();
 
@@ -12,7 +12,7 @@ const connection = new Sequelize({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     logging: false,
-    models: [User, Todo],
+    models: [User, Task],
     dialectOptions: {
         //     ssl: {
         //         require: true,

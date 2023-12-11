@@ -69,6 +69,29 @@ export class UserService {
         }
     }
 
+    async getUserByLogin(login: string) {
+        try {
+            const user = await User.findOne({
+                where: { login },
+            });
+
+            console.log(user, '111');
+
+            if (!user) {
+                return new EntityError(
+                    `пользователь с указанным логином: ${login} не найден`,
+                );
+            }
+
+            return user;
+        } catch (e: unknown) {
+            if (e instanceof DBError) {
+                return new DBError('data base error', e);
+            }
+            return new Error('unknown error was occured');
+        }
+    }
+
     async destroyUser(id: number) {
         try {
             const todo = await User.findByPk(id);

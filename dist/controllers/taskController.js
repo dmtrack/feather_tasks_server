@@ -10,56 +10,47 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const entity_error_1 = require("../exceptions/entity-error");
-const userService = require('../services/user.service');
-class UserController {
+const taskService = require('../services/task.service');
+class TaskController {
     constructor() {
         this.create = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { name, login } = req.body;
             try {
-                const { name, password, login } = req.body;
-                const response = yield userService.create({
+                const response = yield taskService.create({
                     name,
                     login,
-                    password,
                 });
-                if (!(response instanceof entity_error_1.EntityError)) {
-                    res.status(200).json({
-                        id: response.id,
-                        name: response.login,
-                        email: response.password,
-                    });
-                }
-                else {
-                    res.status(500).json('server error');
-                }
+                res.json({
+                    name: response.name,
+                    lastname: response.login,
+                });
             }
             catch (e) {
                 if (e instanceof Error)
                     res.status(400).json(e.message);
             }
         });
-        this.getUsers = (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.getTasks = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield userService.getUsers();
-                res.status(200).json({
-                    response,
-                });
+                const todos = yield taskService.getTodos();
+                return res.json(todos);
             }
             catch (e) {
                 if (e instanceof Error)
                     res.status(400).json(e.message);
             }
         });
-        this.getUserById = (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.getUserTasks = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const response = yield userService.getUserById(id);
+                const response = yield taskService.getUserTodo(id);
                 if (!(response instanceof entity_error_1.EntityError)) {
                     res.status(200).json({
                         response,
                     });
                 }
                 else {
-                    res.status(400).json(`пользователь с указанным персональным кодом: ${id} не найден`);
+                    res.status(400).json(`у пользователя с id:${id} нет задач`);
                 }
             }
             catch (e) {
@@ -67,15 +58,15 @@ class UserController {
                     res.status(400).json(e.message);
             }
         });
-        this.destroyUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.destroyTask = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const response = yield userService.destroyUser(id);
+                const response = yield taskService.destroyTodo(id);
                 if (!(response instanceof entity_error_1.EntityError)) {
                     res.status(200).json(response);
                 }
                 else {
-                    return `пользователь с указанным персональным кодом: ${id} не найден`;
+                    res.status(400).json(`задачи с id:${id} не существует`);
                 }
             }
             catch (e) {
@@ -85,4 +76,4 @@ class UserController {
         });
     }
 }
-module.exports = new UserController();
+exports.default = new TaskController();

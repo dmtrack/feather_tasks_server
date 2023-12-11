@@ -29,10 +29,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Task = void 0;
 const sequelize = __importStar(require("sequelize-typescript"));
-const task_1 = require("./task");
-let User = class User extends sequelize.Model {
+const user_1 = require("./user");
+let Task = class Task extends sequelize.Model {
 };
 __decorate([
     sequelize.Column({
@@ -41,32 +41,36 @@ __decorate([
         primaryKey: true,
         allowNull: false,
     })
-], User.prototype, "id", void 0);
+], Task.prototype, "id", void 0);
+__decorate([
+    sequelize.BelongsTo(() => user_1.User)
+], Task.prototype, "user", void 0);
+__decorate([
+    sequelize.ForeignKey(() => user_1.User),
+    sequelize.Column({
+        type: sequelize.DataType.BIGINT,
+        allowNull: false,
+    })
+], Task.prototype, "userId", void 0);
 __decorate([
     sequelize.Column({
         type: sequelize.DataType.STRING,
-        allowNull: false,
     })
-], User.prototype, "name", void 0);
+], Task.prototype, "name", void 0);
 __decorate([
     sequelize.Column({
         type: sequelize.DataType.STRING,
-        allowNull: false,
     })
-], User.prototype, "login", void 0);
+], Task.prototype, "description", void 0);
 __decorate([
     sequelize.Column({
-        type: sequelize.DataType.STRING,
-        allowNull: false,
+        type: sequelize.DataType.BOOLEAN,
     })
-], User.prototype, "password", void 0);
-__decorate([
-    sequelize.HasMany(() => task_1.Task, { onDelete: 'cascade' })
-], User.prototype, "userTasks", void 0);
-User = __decorate([
+], Task.prototype, "finished", void 0);
+Task = __decorate([
     sequelize.Table({
-        timestamps: true,
-        tableName: 'users',
+        timestamps: false,
+        tableName: 'tasks',
     })
-], User);
-exports.User = User;
+], Task);
+exports.Task = Task;

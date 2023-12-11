@@ -1,15 +1,12 @@
-'use strict';
-var __importDefault =
-    (this && this.__importDefault) ||
-    function (mod) {
-        return mod && mod.__esModule ? mod : { default: mod };
-    };
-Object.defineProperty(exports, '__esModule', { value: true });
-const sequelize_typescript_1 = require('sequelize-typescript');
-const reservation_1 = require('./models/reservation');
-const room_1 = require('./models/room');
-const dotenv_1 = __importDefault(require('dotenv'));
-const user_1 = require('./models/user');
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_typescript_1 = require("sequelize-typescript");
+const dotenv_1 = __importDefault(require("dotenv"));
+const user_1 = require("./models/user");
+const task_1 = require("./models/task");
 dotenv_1.default.config();
 const connection = new sequelize_typescript_1.Sequelize({
     dialect: 'postgres',
@@ -17,14 +14,14 @@ const connection = new sequelize_typescript_1.Sequelize({
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    todoging: false,
-    models: [room_1.Room, reservation_1.Reservation, user_1.User],
+    logging: false,
+    models: [user_1.User, task_1.Task],
     dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false,
-        },
-        native: true,
+    //     ssl: {
+    //         require: true,
+    //         rejectUnauthorized: false,
+    //     },
+    //     native: true,
     },
 });
 exports.default = connection;
