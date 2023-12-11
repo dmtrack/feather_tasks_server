@@ -9,10 +9,10 @@
         "build": "tsc",
         "lint": "npx eslint \"{,!(node_modules)/**/}*.{js,ts}\"",
         "lint:staged": "npx eslint",
-        "lint:fix": "npm run lint --write",
+        "lint:fix": "npm run lint --fix",
         "format": "npm run prettier:fix && npm run lint:fix",
         "prepare": "husky install",
-        "prettier": "prettier --check",
+        "prettier": "npx prettier --check .",
         "prettier:fix": "npm run prettier --write \"{,!(node_modules)/**/}*.{js,ts}\""
     },
     "author": "dmtrack",
