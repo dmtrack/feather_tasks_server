@@ -15,15 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createMokeData = void 0;
 const db_error_1 = require("../exceptions/db-error");
 const moke_json_1 = __importDefault(require("./moke.json"));
-const TodoService = require('../services/todo.service');
+const TaskService = require('../services/task.service');
 const UserService = require('../services/user.service');
 const createMokeData = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield UserService.create(moke_json_1.default.users.user1);
         yield UserService.create(moke_json_1.default.users.user2);
-        yield TodoService.create(moke_json_1.default.todos.todo1);
-        yield TodoService.create(moke_json_1.default.todos.todo2);
-        yield TodoService.create(moke_json_1.default.todos.todo3);
+        yield TaskService.create(moke_json_1.default.todos.todo1);
+        yield TaskService.create(moke_json_1.default.todos.todo2);
+        yield TaskService.create(moke_json_1.default.todos.todo3);
     }
     catch (e) {
         if (e instanceof db_error_1.DBError) {

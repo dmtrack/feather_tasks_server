@@ -54,7 +54,7 @@ exports.app.use((0, cors_1.default)({
 exports.app.use((0, body_parser_1.json)());
 exports.app.use((0, body_parser_1.urlencoded)({ extended: true }));
 exports.app.use('/user', user_1.default);
-exports.app.use('/todo', task_1.default);
+exports.app.use('/task', task_1.default);
 exports.app.use('/auth', auth_1.default);
 exports.app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs, { explorer: true, customCss: CSS_URL }));
 config_1.default

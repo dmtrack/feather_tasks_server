@@ -35,8 +35,7 @@ class TaskController {
     getUserTasks: RequestHandler = async (req, res) => {
         const { id } = req.params;
         try {
-            const response = await taskService.getUserTodo(id);
-
+            const response = await taskService.getUserTasks(id);
             if (!(response instanceof EntityError)) {
                 res.status(200).json({
                     response,

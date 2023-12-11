@@ -75,8 +75,6 @@ export class UserService {
                 where: { login },
             });
 
-            console.log(user, '111');
-
             if (!user) {
                 return new EntityError(
                     `пользователь с указанным логином: ${login} не найден`,

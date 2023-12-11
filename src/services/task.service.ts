@@ -31,7 +31,7 @@ class TaskService {
         });
     }
 
-    async getUserTodo(id: number) {
+    async getUserTasks(id: number) {
         try {
             const result = await connection.transaction(
                 async (t: Transaction) => {
@@ -42,13 +42,12 @@ class TaskService {
                         );
                     }
 
-                    const todos = await Task.findAll({
+                    const tasks = await Task.findAll({
                         where: { userId: id },
                         transaction: t,
-                        order: [['dateStart', 'DESC']],
                     });
 
-                    return todos;
+                    return tasks;
                 },
             );
             return result;

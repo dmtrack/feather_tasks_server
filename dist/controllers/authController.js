@@ -24,11 +24,9 @@ class AuthController {
                     .send((0, error_service_1.createError)(400, `bad request: ${bodyError}`));
             }
             const { login, name, password } = req.body;
-            const foundedUser = yield userService.getUserByLogin({ login });
-            if (foundedUser) {
-                return res
-                    .status(409)
-                    .send((0, error_service_1.createError)(409, 'Login already exist'));
+            const foundedUser = yield userService.getUserByLogin(login);
+            if (!(foundedUser instanceof entity_error_1.EntityError)) {
+                res.status(409).send((0, error_service_1.createError)(409, 'Login already exist'));
             }
             const hashedPassword = yield (0, hash_service_1.hashPassword)(password);
             try {
@@ -57,9 +55,7 @@ class AuthController {
                 if (foundedUser) {
                     const isCorrectPassword = yield (0, hash_service_1.checkPassword)(password, foundedUser.password);
                     if (isCorrectPassword) {
-                        return res.send({
-                            token: signToken(foundedUser._id, login),
-                        });
+                        return res.json(foundedUser);
                     }
                 }
                 return res
@@ -67,8 +63,9 @@ class AuthController {
                     .send((0, error_service_1.createError)(401, 'Authorization error'));
             }
             catch (e) {
-                if (e instanceof Error)
+                if (e instanceof Error) {
                     res.status(400).send((0, error_service_1.createError)(401, 'Authorization error'));
+                }
             }
         });
         this.logOut = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -93,6 +90,3 @@ class AuthController {
     }
 }
 exports.default = new AuthController();
-function signToken(_id, login) {
-    throw new Error('Function not implemented.');
-}

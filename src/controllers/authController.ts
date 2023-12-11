@@ -46,7 +46,7 @@ class AuthController {
         const { login, password } = req.body;
 
         try {
-            const foundedUser = await userService.findOneUser({ login });
+            const foundedUser = await userService.getUserByLogin(login);
             if (foundedUser) {
                 const isCorrectPassword = await checkPassword(
                     password,
@@ -57,9 +57,7 @@ class AuthController {
                 }
             }
 
-            return res
-                .status(401)
-                .send(createError(401, 'Authorization error'));
+            res.json(foundedUser);
         } catch (e: unknown) {
             if (e instanceof Error) {
                 res.status(400).send(createError(401, 'Authorization error'));

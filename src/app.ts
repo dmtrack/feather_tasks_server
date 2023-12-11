@@ -54,7 +54,7 @@ app.use(
 app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use('/user', userRouter);
-app.use('/todo', todoRouter);
+app.use('/task', todoRouter);
 app.use('/auth', authRouter);
 app.use(
     '/api-docs',
