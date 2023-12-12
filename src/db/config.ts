@@ -15,11 +15,11 @@ const connection = new Sequelize({
     logging: false,
     models: [User, Task, Token],
     dialectOptions: {
-        //     ssl: {
-        //         require: true,
-        //         rejectUnauthorized: false,
-        //     },
-        //     native: true,
+        ssl: {
+            require: true,
+            rejectUnauthorized: false,
+        },
+        native: true,
     },
 });
 
