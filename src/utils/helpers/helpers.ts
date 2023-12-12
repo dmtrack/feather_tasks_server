@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import { User } from '../../db/models/user';
 import { IUserDto } from '../../types/user.interface';
 import { DBError } from '../../exceptions/db-error';
@@ -29,6 +30,30 @@ const createUserDto = (dbUser: User): IUserDto => {
         login: dbUser.login,
         avatar: dbUser.avatarUrl,
     };
+};
+
+const SECRET_KEY = process.env.JWT_ACCESS_SECRET;
+
+export const signToken = (
+    id: string,
+    login: string,
+    name: string,
+    avatarUrl: string,
+    accessToken: string,
+) => {
+    return jwt.sign(
+        { id, login, name, avatarUrl, accessToken },
+        SECRET_KEY as string,
+    );
+};
+
+export const checkToken = (token: string) => {
+    try {
+        jwt.verify(token, SECRET_KEY as string);
+        return true;
+    } catch (error) {
+        return false;
+    }
 };
 
 export { createUserDto, createMokeData };

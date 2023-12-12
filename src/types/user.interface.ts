@@ -10,7 +10,7 @@ export interface IUserAfterSignIn {
         id: number;
         name: string;
         login: string;
-        avatar: string;
+        avatarUrl: string;
         accessToken: string;
     };
     refreshToken: string;
