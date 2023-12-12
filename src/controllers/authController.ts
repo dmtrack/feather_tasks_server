@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import { signToken } from './../utils/helpers/helpers';
 import { User } from '../db/models/user';
 import { AuthError } from '../exceptions/auth-error';
 import { DBError } from '../exceptions/db-error';
@@ -50,7 +51,15 @@ class AuthController {
                 domain: process.env.CORS_ORIGIN,
             })
                 .status(200)
-                .json(response.user);
+                .send({
+                    token: signToken(
+                        String(response.user.id),
+                        response.user.login,
+                        response.user.name,
+                        response.user.avatarUrl,
+                        response.user.accessToken,
+                    ),
+                });
         } catch (e: unknown) {
             if (
                 e instanceof EntityError ||
@@ -108,7 +117,15 @@ class AuthController {
                 domain: process.env.CORS_ORIGIN,
             })
                 .status(200)
-                .json(response.user);
+                .send({
+                    token: signToken(
+                        response.user.id,
+                        response.user.login,
+                        response.name,
+                        response.avatarUrl,
+                        response.accessToken,
+                    ),
+                });
         } catch (e: unknown) {
             if (
                 e instanceof EntityError ||
