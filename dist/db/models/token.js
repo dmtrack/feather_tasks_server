@@ -29,11 +29,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Token = void 0;
 const sequelize = __importStar(require("sequelize-typescript"));
-const task_1 = require("./task");
-const token_1 = require("./token");
-let User = class User extends sequelize.Model {
+const user_1 = require("./user");
+let Token = class Token extends sequelize.Model {
 };
 __decorate([
     sequelize.Column({
@@ -42,47 +41,27 @@ __decorate([
         primaryKey: true,
         allowNull: false,
     })
-], User.prototype, "id", void 0);
+], Token.prototype, "id", void 0);
 __decorate([
-    sequelize.Column({
-        type: sequelize.DataType.STRING,
-        allowNull: false,
-    })
-], User.prototype, "name", void 0);
-__decorate([
-    sequelize.Column({
-        type: sequelize.DataType.STRING,
-        allowNull: false,
-    })
-], User.prototype, "login", void 0);
-__decorate([
-    sequelize.Column({
-        type: sequelize.DataType.STRING,
-        allowNull: false,
-    })
-], User.prototype, "password", void 0);
-__decorate([
-    sequelize.Column({
-        type: sequelize.DataType.STRING,
-        allowNull: true,
-    })
-], User.prototype, "avatarUrl", void 0);
-__decorate([
+    sequelize.ForeignKey(() => user_1.User),
     sequelize.Column({
         type: sequelize.DataType.BIGINT,
+        allowNull: false,
+    })
+], Token.prototype, "userId", void 0);
+__decorate([
+    sequelize.BelongsTo(() => user_1.User)
+], Token.prototype, "user", void 0);
+__decorate([
+    sequelize.Column({
+        type: sequelize.DataType.TEXT,
         allowNull: true,
     })
-], User.prototype, "tokenId", void 0);
-__decorate([
-    sequelize.HasMany(() => task_1.Task, { onDelete: 'cascade' })
-], User.prototype, "userTasks", void 0);
-__decorate([
-    sequelize.HasOne(() => token_1.Token, { onDelete: 'cascade' })
-], User.prototype, "token", void 0);
-User = __decorate([
+], Token.prototype, "refreshToken", void 0);
+Token = __decorate([
     sequelize.Table({
-        timestamps: true,
-        tableName: 'users',
+        timestamps: false,
+        tableName: 'tokens',
     })
-], User);
-exports.User = User;
+], Token);
+exports.Token = Token;

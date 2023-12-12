@@ -9,7 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const auth_error_1 = require("../exceptions/auth-error");
+const db_error_1 = require("../exceptions/db-error");
 const entity_error_1 = require("../exceptions/entity-error");
+const token_error_1 = require("../exceptions/token-error");
 const taskService = require('../services/task.service');
 class TaskController {
     constructor() {
@@ -32,30 +35,56 @@ class TaskController {
         });
         this.getTasks = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const todos = yield taskService.getTodos();
-                return res.json(todos);
+                const response = yield taskService.getTodos();
+                return res.status(200).json(response);
             }
             catch (e) {
-                if (e instanceof Error)
-                    res.status(400).json(e.message);
+                if (e instanceof entity_error_1.EntityError ||
+                    e instanceof db_error_1.DBError ||
+                    e instanceof auth_error_1.AuthError ||
+                    e instanceof token_error_1.TokenError) {
+                    res.status(e.statusCode).send({
+                        name: e.name,
+                        statusCode: e.statusCode,
+                        message: e.message,
+                    });
+                }
+                else {
+                    res.status(500).send({
+                        statusCode: 500,
+                        message: 'unknown task error was occured',
+                    });
+                }
             }
         });
         this.getUserTasks = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const response = yield taskService.getUserTodo(id);
+                const response = yield taskService.getUserTasks(id);
                 if (!(response instanceof entity_error_1.EntityError)) {
-                    res.status(200).json({
-                        response,
-                    });
+                    res.status(200).json(response);
                 }
                 else {
-                    res.status(400).json(`у пользователя с id:${id} нет задач`);
+                    throw new entity_error_1.EntityError(`there is no tasks for user with id: ${id}`, 404);
                 }
             }
             catch (e) {
-                if (e instanceof Error)
-                    res.status(400).json(e.message);
+                if (e instanceof entity_error_1.EntityError ||
+                    e instanceof db_error_1.DBError ||
+                    e instanceof auth_error_1.AuthError ||
+                    e instanceof token_error_1.TokenError) {
+                    res.status(e.statusCode).send({
+                        name: e.name,
+                        statusCode: e.statusCode,
+                        message: e.message,
+                    });
+                }
+                else {
+                    res.status(500).send({
+                        statusCode: 500,
+                        message: 'unknown task_controller error was occured',
+                    });
+                }
             }
         });
         this.destroyTask = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -66,12 +95,26 @@ class TaskController {
                     res.status(200).json(response);
                 }
                 else {
-                    res.status(400).json(`задачи с id:${id} не существует`);
+                    throw new entity_error_1.EntityError(`there is no task with id: ${id}`, 404);
                 }
             }
             catch (e) {
-                if (e instanceof Error)
-                    res.status(400).json(e.message);
+                if (e instanceof entity_error_1.EntityError ||
+                    e instanceof db_error_1.DBError ||
+                    e instanceof auth_error_1.AuthError ||
+                    e instanceof token_error_1.TokenError) {
+                    res.status(e.statusCode).send({
+                        name: e.name,
+                        statusCode: e.statusCode,
+                        message: e.message,
+                    });
+                }
+                else {
+                    res.status(500).send({
+                        statusCode: 500,
+                        message: 'unknown task error was occured',
+                    });
+                }
             }
         });
     }

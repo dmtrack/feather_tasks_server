@@ -7,6 +7,7 @@ const sequelize_typescript_1 = require("sequelize-typescript");
 const dotenv_1 = __importDefault(require("dotenv"));
 const user_1 = require("./models/user");
 const task_1 = require("./models/task");
+const token_1 = require("./models/token");
 dotenv_1.default.config();
 const connection = new sequelize_typescript_1.Sequelize({
     dialect: 'postgres',
@@ -15,7 +16,7 @@ const connection = new sequelize_typescript_1.Sequelize({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     logging: false,
-    models: [user_1.User, task_1.Task],
+    models: [user_1.User, task_1.Task, token_1.Token],
     dialectOptions: {
     //     ssl: {
     //         require: true,

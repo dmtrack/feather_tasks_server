@@ -33,33 +33,32 @@ class TaskService {
                 }
                 catch (e) {
                     if (e instanceof db_error_1.DBError) {
-                        return new db_error_1.DBError('data base error', e);
+                        return new db_error_1.DBError('data base error', 501, e);
                     }
                     return new Error('unknown error was occured');
                 }
             }));
         });
     }
-    getUserTodo(id) {
+    getUserTasks(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield config_1.default.transaction((t) => __awaiter(this, void 0, void 0, function* () {
                     const user = yield user_1.User.findByPk(id);
                     if (!user) {
-                        return new entity_error_1.EntityError(`there is no user with id:${id} in data-base`);
+                        return new entity_error_1.EntityError(`there is no user with id:${id} in data-base`, 400);
                     }
-                    const todos = yield task_1.Task.findAll({
+                    const tasks = yield task_1.Task.findAll({
                         where: { userId: id },
                         transaction: t,
-                        order: [['dateStart', 'DESC']],
                     });
-                    return todos;
+                    return tasks;
                 }));
                 return result;
             }
             catch (e) {
                 if (e instanceof db_error_1.DBError) {
-                    return new db_error_1.DBError('data base error', e);
+                    return new db_error_1.DBError('data base error', 501, e);
                 }
                 return new Error('unknown error was occured');
             }
@@ -73,7 +72,7 @@ class TaskService {
             }
             catch (e) {
                 if (e instanceof db_error_1.DBError) {
-                    return new db_error_1.DBError('data base error', e);
+                    return new db_error_1.DBError('data base error', 501, e);
                 }
                 return new Error('unknown error was occured');
             }
@@ -84,14 +83,14 @@ class TaskService {
             try {
                 const todo = yield task_1.Task.findByPk(id);
                 if (!todo) {
-                    return new entity_error_1.EntityError(`there is no todo with id:${id} in data-base`);
+                    return new entity_error_1.EntityError(`there is no todo with id:${id} in data-base`, 400);
                 }
                 yield task_1.Task.destroy({ where: { id } });
-                return `задача с id:${id} удалена`;
+                return `task with id:${id} is deleted`;
             }
             catch (e) {
                 if (e instanceof db_error_1.DBError) {
-                    return new db_error_1.DBError('data base error', e);
+                    return new db_error_1.DBError('data base error', 501, e);
                 }
                 return new Error('unknown error was occured');
             }
