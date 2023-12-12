@@ -24,7 +24,7 @@ const config_1 = __importDefault(require("./db/config"));
 const user_1 = __importDefault(require("./routes/user"));
 const task_1 = __importDefault(require("./routes/task"));
 const auth_1 = __importDefault(require("./routes/auth"));
-const createMoke_1 = require("./utils/createMoke");
+const helpers_1 = require("./utils/helpers/helpers");
 exports.app = (0, express_1.default)();
 exports.server = http_1.default.createServer(exports.app);
 const CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css';
@@ -60,7 +60,7 @@ exports.app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_expr
 config_1.default
     .sync({ force: true })
     .then(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, createMoke_1.createMokeData)();
+    yield (0, helpers_1.createMokeData)();
     console.log('Database synced successfully, lets go!');
 }))
     .catch((err) => {

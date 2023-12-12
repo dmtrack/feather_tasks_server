@@ -9,7 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const auth_error_1 = require("../exceptions/auth-error");
+const db_error_1 = require("../exceptions/db-error");
 const entity_error_1 = require("../exceptions/entity-error");
+const token_error_1 = require("../exceptions/token-error");
 const error_service_1 = require("../services/error.service");
 const hash_service_1 = require("../services/hash.service");
 const authService = require('../services/auth.service');
@@ -23,23 +26,49 @@ class AuthController {
                     .status(400)
                     .send((0, error_service_1.createError)(400, `bad request: ${bodyError}`));
             }
-            const { login, name, password } = req.body;
-            const foundedUser = yield userService.getUserByLogin(login);
-            if (!(foundedUser instanceof entity_error_1.EntityError)) {
-                res.status(409).send((0, error_service_1.createError)(409, 'Login already exist'));
-            }
-            const hashedPassword = yield (0, hash_service_1.hashPassword)(password);
             try {
-                const newUser = yield userService.create({
+                let { login, name, password, avatarUrl } = req.body;
+                if (!avatarUrl) {
+                    avatarUrl =
+                        'https://github.com/dmtrack/collections_client/blob/dev-client/public/defaultAvatarFinal.png?raw=true';
+                }
+                const foundedUser = yield userService.getUserByLogin(login);
+                if (foundedUser) {
+                    throw new auth_error_1.AuthError('user with this login is already registered', 409);
+                }
+                const hashedPassword = yield (0, hash_service_1.hashPassword)(password);
+                const response = yield authService.signUp({
                     login,
                     name,
                     password: hashedPassword,
+                    avatarUrl,
                 });
-                res.json(newUser);
+                res.cookie('refreshToken', response.refreshToken, {
+                    maxAge: 30 * 24 * 60 * 60 * 1000,
+                    httpOnly: true,
+                    sameSite: 'none',
+                    domain: process.env.CORS_ORIGIN,
+                })
+                    .status(200)
+                    .json(response.user);
             }
             catch (e) {
-                if (e instanceof Error)
-                    res.status(400).json(e.message);
+                if (e instanceof entity_error_1.EntityError ||
+                    e instanceof db_error_1.DBError ||
+                    e instanceof auth_error_1.AuthError ||
+                    e instanceof token_error_1.TokenError) {
+                    res.status(e.statusCode).send({
+                        name: e.name,
+                        statusCode: e.statusCode,
+                        message: e.message,
+                    });
+                }
+                else {
+                    res.status(500).send({
+                        statusCode: 500,
+                        message: 'unknown error was occured',
+                    });
+                }
             }
         });
         this.signIn = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -49,41 +78,71 @@ class AuthController {
                     .status(400)
                     .send((0, error_service_1.createError)(400, 'bad request: ' + bodyError));
             }
-            const { login, password } = req.body;
             try {
-                const foundedUser = yield userService.findOneUser({ login });
-                if (foundedUser) {
-                    const isCorrectPassword = yield (0, hash_service_1.checkPassword)(password, foundedUser.password);
-                    if (isCorrectPassword) {
-                        return res.json(foundedUser);
-                    }
+                const { login, password } = req.body;
+                const foundedUser = yield userService.getUserByLogin(login);
+                if (!foundedUser) {
+                    throw new auth_error_1.AuthError('user with this login is not registered', 401);
                 }
-                return res
-                    .status(401)
-                    .send((0, error_service_1.createError)(401, 'Authorization error'));
+                const isCorrectPassword = yield (0, hash_service_1.checkPassword)(password, foundedUser.password);
+                if (!isCorrectPassword) {
+                    throw new auth_error_1.AuthError('wrong password', 400);
+                }
+                const response = yield authService.signIn(foundedUser);
+                res.cookie('refreshToken', response.refreshToken, {
+                    maxAge: 30 * 24 * 60 * 60 * 1000,
+                    httpOnly: true,
+                    sameSite: 'none',
+                    domain: process.env.CORS_ORIGIN,
+                })
+                    .status(200)
+                    .json(response.user);
             }
             catch (e) {
-                if (e instanceof Error) {
-                    res.status(400).send((0, error_service_1.createError)(401, 'Authorization error'));
+                if (e instanceof entity_error_1.EntityError ||
+                    e instanceof db_error_1.DBError ||
+                    e instanceof auth_error_1.AuthError ||
+                    e instanceof token_error_1.TokenError) {
+                    res.status(e.statusCode).send({
+                        name: e.name,
+                        statusCode: e.statusCode,
+                        message: e.message,
+                    });
+                }
+                else {
+                    res.status(500).send({
+                        statusCode: 500,
+                        message: 'unknown server error is occured',
+                    });
                 }
             }
         });
         this.logOut = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const response = yield authService.getUserById(id);
-                if (!(response instanceof entity_error_1.EntityError)) {
-                    res.status(200).json({
-                        response,
+                const foundedUser = yield authService.getUserById(id);
+                if (!foundedUser) {
+                    throw new entity_error_1.EntityError('user with this id is not found', 400);
+                }
+                res.status(200).send(`user with id: ${id} is logged out`);
+            }
+            catch (e) {
+                if (e instanceof entity_error_1.EntityError ||
+                    e instanceof db_error_1.DBError ||
+                    e instanceof auth_error_1.AuthError ||
+                    e instanceof token_error_1.TokenError) {
+                    res.status(e.statusCode).send({
+                        name: e.name,
+                        statusCode: e.statusCode,
+                        message: e.message,
                     });
                 }
                 else {
-                    res.status(400).json(`пользователь с указанным персональным кодом: ${id} не найден`);
+                    res.status(500).send({
+                        statusCode: 500,
+                        message: 'unknown error was occured',
+                    });
                 }
-            }
-            catch (e) {
-                if (e instanceof Error)
-                    res.status(400).json(e.message);
             }
         });
         this.check = (req, res) => __awaiter(this, void 0, void 0, function* () { return res.status(200).send((0, error_service_1.createError)(200, 'success')); });

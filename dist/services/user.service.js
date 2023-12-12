@@ -17,12 +17,16 @@ const db_error_1 = require("../exceptions/db-error");
 const entity_error_1 = require("../exceptions/entity-error");
 const user_1 = require("../db/models/user");
 const config_1 = __importDefault(require("../db/config"));
+const hash_service_1 = require("./hash.service");
 class UserService {
     create(props) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield config_1.default.transaction((t) => __awaiter(this, void 0, void 0, function* () {
-                    const { name, login, password } = props;
+                    let { name, login, password } = props;
+                    if (password === '12345678') {
+                        password = yield (0, hash_service_1.hashPassword)(password);
+                    }
                     const user = yield user_1.User.findOne({
                         where: { login },
                         transaction: t,
@@ -40,9 +44,9 @@ class UserService {
             }
             catch (e) {
                 if (e instanceof db_error_1.DBError) {
-                    return new db_error_1.DBError('data base error', e);
+                    return new db_error_1.DBError('user/service data base error', 501, e);
                 }
-                return new Error('unknown error was occured');
+                return new Error('unknown user/service error was occured');
             }
         });
     }
@@ -54,9 +58,9 @@ class UserService {
             }
             catch (e) {
                 if (e instanceof db_error_1.DBError) {
-                    return new db_error_1.DBError('data base error', e);
+                    return new db_error_1.DBError('data base error', 501, e);
                 }
-                return new Error('unknown error was occured');
+                return new Error('unknown user/service error was occured');
             }
         });
     }
@@ -66,16 +70,13 @@ class UserService {
                 const user = yield user_1.User.findOne({
                     where: { id },
                 });
-                if (!user) {
-                    return new entity_error_1.EntityError(`пользователь с указанным персональным кодом: ${id} не найден`);
-                }
                 return user;
             }
             catch (e) {
                 if (e instanceof db_error_1.DBError) {
-                    return new db_error_1.DBError('data base error', e);
+                    return new db_error_1.DBError('user/service data base error', 501, e);
                 }
-                return new Error('unknown error was occured');
+                return new Error('unknown user/service error is occured');
             }
         });
     }
@@ -85,34 +86,31 @@ class UserService {
                 const user = yield user_1.User.findOne({
                     where: { login },
                 });
-                if (!user) {
-                    return new entity_error_1.EntityError(`пользователь с указанным логином: ${login} не найден`);
-                }
                 return user;
             }
             catch (e) {
                 if (e instanceof db_error_1.DBError) {
-                    return new db_error_1.DBError('data base error', e);
+                    return new db_error_1.DBError('user/service data base error', 501, e);
                 }
-                return new Error('unknown error was occured');
+                return new Error('unknown user/service error was occured');
             }
         });
     }
     destroyUser(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const todo = yield user_1.User.findByPk(id);
-                if (!todo) {
-                    return new entity_error_1.EntityError(`there is no user with id:${id} in data-base`);
+                const user = yield user_1.User.findByPk(id);
+                if (!user) {
+                    return new entity_error_1.EntityError(`there is no user with id:${id} in data-base`, 400);
                 }
                 yield user_1.User.destroy({ where: { id } });
                 return `пользователь с id:${id} удален`;
             }
             catch (e) {
                 if (e instanceof db_error_1.DBError) {
-                    return new db_error_1.DBError('data base error', e);
+                    return new db_error_1.DBError('user/service data base error', 501, e);
                 }
-                return new Error('unknown error was occured');
+                return new Error('unknown user/service error was occured');
             }
         });
     }

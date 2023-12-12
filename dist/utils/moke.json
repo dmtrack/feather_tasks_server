@@ -2,12 +2,12 @@
     "users": {
         "user1": {
             "name": "Dmitriy",
-            "password": "123",
+            "password": "12345678",
             "login": "dmtrack.dev@gmail.com"
         },
         "user2": {
             "name": "Ivan",
-            "password": "123",
+            "password": "12345678",
             "login": "ivn.maslov2014@gmail.com"
         }
     },

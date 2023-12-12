@@ -9,7 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const auth_error_1 = require("../exceptions/auth-error");
+const db_error_1 = require("../exceptions/db-error");
 const entity_error_1 = require("../exceptions/entity-error");
+const token_error_1 = require("../exceptions/token-error");
 const userService = require('../services/user.service');
 class UserController {
     constructor() {
@@ -33,8 +36,21 @@ class UserController {
                 }
             }
             catch (e) {
-                if (e instanceof Error)
-                    res.status(400).json(e.message);
+                if (e instanceof entity_error_1.EntityError ||
+                    e instanceof db_error_1.DBError ||
+                    e instanceof auth_error_1.AuthError ||
+                    e instanceof token_error_1.TokenError) {
+                    res.status(e.statusCode).send({
+                        statusCode: e.statusCode,
+                        message: e.message,
+                    });
+                }
+                else {
+                    res.status(500).send({
+                        statusCode: 500,
+                        message: 'unknown user error was occured',
+                    });
+                }
             }
         });
         this.getUsers = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -45,8 +61,21 @@ class UserController {
                 });
             }
             catch (e) {
-                if (e instanceof Error)
-                    res.status(400).json(e.message);
+                if (e instanceof entity_error_1.EntityError ||
+                    e instanceof db_error_1.DBError ||
+                    e instanceof auth_error_1.AuthError ||
+                    e instanceof token_error_1.TokenError) {
+                    res.status(e.statusCode).send({
+                        statusCode: e.statusCode,
+                        message: e.message,
+                    });
+                }
+                else {
+                    res.status(500).send({
+                        statusCode: 500,
+                        message: 'unknown user error was occured',
+                    });
+                }
             }
         });
         this.getUserById = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -63,8 +92,22 @@ class UserController {
                 }
             }
             catch (e) {
-                if (e instanceof Error)
-                    res.status(400).json(e.message);
+                if (e instanceof entity_error_1.EntityError ||
+                    e instanceof db_error_1.DBError ||
+                    e instanceof auth_error_1.AuthError ||
+                    e instanceof token_error_1.TokenError) {
+                    res.status(e.statusCode).send({
+                        name: e.name,
+                        statusCode: e.statusCode,
+                        message: e.message,
+                    });
+                }
+                else {
+                    res.status(500).send({
+                        statusCode: 500,
+                        message: 'unknown user error was occured',
+                    });
+                }
             }
         });
         this.destroyUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -79,8 +122,22 @@ class UserController {
                 }
             }
             catch (e) {
-                if (e instanceof Error)
-                    res.status(400).json(e.message);
+                if (e instanceof entity_error_1.EntityError ||
+                    e instanceof db_error_1.DBError ||
+                    e instanceof auth_error_1.AuthError ||
+                    e instanceof token_error_1.TokenError) {
+                    res.status(e.statusCode).send({
+                        name: e.name,
+                        statusCode: e.statusCode,
+                        message: e.message,
+                    });
+                }
+                else {
+                    res.status(500).send({
+                        statusCode: 500,
+                        message: 'unknown user error was occured',
+                    });
+                }
             }
         });
     }
