@@ -81,7 +81,6 @@ class UserController {
             const response = await userService.getUserById(id);
             if (!(response instanceof EntityError)) {
                 const user = await createUserDto(response);
-                console.log({ founded: user });
                 res.status(200).json({
                     name: user.name,
                     login: user.login,
