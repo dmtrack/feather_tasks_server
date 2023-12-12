@@ -1,6 +1,9 @@
 import { RequestHandler } from 'express';
 import { User } from '../db/models/user';
+import { AuthError } from '../exceptions/auth-error';
+import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
+import { TokenError } from '../exceptions/token-error';
 
 const userService = require('../services/user.service');
 
@@ -25,7 +28,22 @@ class UserController {
                 res.status(500).json('server error');
             }
         } catch (e: unknown) {
-            if (e instanceof Error) res.status(400).json(e.message);
+            if (
+                e instanceof EntityError ||
+                e instanceof DBError ||
+                e instanceof AuthError ||
+                e instanceof TokenError
+            ) {
+                res.status(e.statusCode).send({
+                    statusCode: e.statusCode,
+                    message: e.message,
+                });
+            } else {
+                res.status(500).send({
+                    statusCode: 500,
+                    message: 'unknown user error was occured',
+                });
+            }
         }
     };
 
@@ -36,7 +54,22 @@ class UserController {
                 response,
             });
         } catch (e: unknown) {
-            if (e instanceof Error) res.status(400).json(e.message);
+            if (
+                e instanceof EntityError ||
+                e instanceof DBError ||
+                e instanceof AuthError ||
+                e instanceof TokenError
+            ) {
+                res.status(e.statusCode).send({
+                    statusCode: e.statusCode,
+                    message: e.message,
+                });
+            } else {
+                res.status(500).send({
+                    statusCode: 500,
+                    message: 'unknown user error was occured',
+                });
+            }
         }
     };
 
@@ -54,7 +87,23 @@ class UserController {
                 );
             }
         } catch (e: unknown) {
-            if (e instanceof Error) res.status(400).json(e.message);
+            if (
+                e instanceof EntityError ||
+                e instanceof DBError ||
+                e instanceof AuthError ||
+                e instanceof TokenError
+            ) {
+                res.status(e.statusCode).send({
+                    name: e.name,
+                    statusCode: e.statusCode,
+                    message: e.message,
+                });
+            } else {
+                res.status(500).send({
+                    statusCode: 500,
+                    message: 'unknown user error was occured',
+                });
+            }
         }
     };
 
@@ -69,7 +118,23 @@ class UserController {
                 return `пользователь с указанным персональным кодом: ${id} не найден`;
             }
         } catch (e: unknown) {
-            if (e instanceof Error) res.status(400).json(e.message);
+            if (
+                e instanceof EntityError ||
+                e instanceof DBError ||
+                e instanceof AuthError ||
+                e instanceof TokenError
+            ) {
+                res.status(e.statusCode).send({
+                    name: e.name,
+                    statusCode: e.statusCode,
+                    message: e.message,
+                });
+            } else {
+                res.status(500).send({
+                    statusCode: 500,
+                    message: 'unknown user error was occured',
+                });
+            }
         }
     };
 }

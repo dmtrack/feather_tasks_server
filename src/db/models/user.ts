@@ -1,5 +1,6 @@
 import * as sequelize from 'sequelize-typescript';
 import { Task } from './task';
+import { Token } from './token';
 
 @sequelize.Table({
     timestamps: true,
@@ -32,6 +33,21 @@ export class User extends sequelize.Model {
     })
     password!: string;
 
+    @sequelize.Column({
+        type: sequelize.DataType.STRING,
+        allowNull: true,
+    })
+    avatarUrl!: string;
+
+    @sequelize.Column({
+        type: sequelize.DataType.BIGINT,
+        allowNull: true,
+    })
+    tokenId!: number;
+
     @sequelize.HasMany(() => Task, { onDelete: 'cascade' })
     userTasks!: Task[];
+
+    @sequelize.HasOne(() => Token, { onDelete: 'cascade' })
+    token!: Token;
 }

@@ -3,8 +3,11 @@ export class AuthError extends Error {
 
     error: unknown;
 
-    constructor(message: string, error?: unknown) {
+    statusCode: number;
+
+    constructor(message: string, statusCode: number, error?: unknown) {
         super();
+        this.statusCode = statusCode;
         this.message = message;
         this.error = error;
     }

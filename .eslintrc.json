@@ -37,6 +37,10 @@
         "no-unused-vars": "off",
         "implicit-arrow-linebreak": "off",
         "operator-linebreak": "off",
-        "prefer-template": "off"
+        "prefer-template": "off",
+        "prefer-const": "off",
+        "import/no-useless-path-segments": "off",
+        "no-else-return": "off",
+        "arrow-body-style": "off"
     }
 }

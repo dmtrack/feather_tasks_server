@@ -30,9 +30,9 @@ export class UserService {
             return result;
         } catch (e: unknown) {
             if (e instanceof DBError) {
-                return new DBError('data base error', e);
+                return new DBError('user/service data base error', 501, e);
             }
-            return new Error('unknown error was occured');
+            return new Error('unknown user/service error was occured');
         }
     }
 
@@ -42,9 +42,9 @@ export class UserService {
             return users;
         } catch (e: unknown) {
             if (e instanceof DBError) {
-                return new DBError('data base error', e);
+                return new DBError('data base error', 501, e);
             }
-            return new Error('unknown error was occured');
+            return new Error('unknown user/service error was occured');
         }
     }
 
@@ -54,18 +54,12 @@ export class UserService {
                 where: { id },
             });
 
-            if (!user) {
-                return new EntityError(
-                    `пользователь с указанным персональным кодом: ${id} не найден`,
-                );
-            }
-
             return user;
         } catch (e: unknown) {
             if (e instanceof DBError) {
-                return new DBError('data base error', e);
+                return new DBError('user/service data base error', 501, e);
             }
-            return new Error('unknown error was occured');
+            return new Error('unknown user/service error is occured');
         }
     }
 
@@ -75,36 +69,31 @@ export class UserService {
                 where: { login },
             });
 
-            if (!user) {
-                return new EntityError(
-                    `пользователь с указанным логином: ${login} не найден`,
-                );
-            }
-
             return user;
         } catch (e: unknown) {
             if (e instanceof DBError) {
-                return new DBError('data base error', e);
+                return new DBError('user/service data base error', 501, e);
             }
-            return new Error('unknown error was occured');
+            return new Error('unknown user/service error was occured');
         }
     }
 
     async destroyUser(id: number) {
         try {
-            const todo = await User.findByPk(id);
-            if (!todo) {
+            const user = await User.findByPk(id);
+            if (!user) {
                 return new EntityError(
                     `there is no user with id:${id} in data-base`,
+                    400,
                 );
             }
             await User.destroy({ where: { id } });
             return `пользователь с id:${id} удален`;
         } catch (e: unknown) {
             if (e instanceof DBError) {
-                return new DBError('data base error', e);
+                return new DBError('user/service data base error', 501, e);
             }
-            return new Error('unknown error was occured');
+            return new Error('unknown user/service error was occured');
         }
     }
 }

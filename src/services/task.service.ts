@@ -24,7 +24,7 @@ class TaskService {
                 return newTask;
             } catch (e: unknown) {
                 if (e instanceof DBError) {
-                    return new DBError('data base error', e);
+                    return new DBError('data base error', 501, e);
                 }
                 return new Error('unknown error was occured');
             }
@@ -39,6 +39,7 @@ class TaskService {
                     if (!user) {
                         return new EntityError(
                             `there is no user with id:${id} in data-base`,
+                            400,
                         );
                     }
 
@@ -53,7 +54,7 @@ class TaskService {
             return result;
         } catch (e: unknown) {
             if (e instanceof DBError) {
-                return new DBError('data base error', e);
+                return new DBError('data base error', 501, e);
             }
             return new Error('unknown error was occured');
         }
@@ -65,7 +66,7 @@ class TaskService {
             return todos;
         } catch (e: unknown) {
             if (e instanceof DBError) {
-                return new DBError('data base error', e);
+                return new DBError('data base error', 501, e);
             }
             return new Error('unknown error was occured');
         }
@@ -77,13 +78,14 @@ class TaskService {
             if (!todo) {
                 return new EntityError(
                     `there is no todo with id:${id} in data-base`,
+                    400,
                 );
             }
             await Task.destroy({ where: { id } });
-            return `задача с id:${id} удалена`;
+            return `task with id:${id} is deleted`;
         } catch (e: unknown) {
             if (e instanceof DBError) {
-                return new DBError('data base error', e);
+                return new DBError('data base error', 501, e);
             }
             return new Error('unknown error was occured');
         }

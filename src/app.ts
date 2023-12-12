@@ -11,8 +11,7 @@ import connection from './db/config';
 import userRouter from './routes/user';
 import todoRouter from './routes/task';
 import authRouter from './routes/auth';
-
-import { createMokeData } from './utils/createMoke';
+import { createMokeData } from './utils/helpers/helpers';
 
 export const app = express();
 export const server = http.createServer(app);

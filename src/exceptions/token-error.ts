@@ -1,5 +1,5 @@
-export class EntityError extends Error {
-    name: 'EntityError' = 'EntityError';
+export class TokenError extends Error {
+    name: 'TokenError' = 'TokenError';
 
     error: unknown;
 
