@@ -44,6 +44,7 @@ export const signToken = (
     return jwt.sign(
         { id, login, name, avatarUrl, accessToken },
         SECRET_KEY as string,
+        { expiresIn: '720m' },
     );
 };
 

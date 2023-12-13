@@ -12,6 +12,7 @@ import userRouter from './routes/user';
 import todoRouter from './routes/task';
 import authRouter from './routes/auth';
 import { createMokeData } from './utils/helpers/helpers';
+import { Authmiddleware } from './middleware/auth-middleware';
 
 export const app = express();
 export const server = http.createServer(app);
@@ -55,6 +56,7 @@ app.use(urlencoded({ extended: true }));
 app.use('/user', userRouter);
 app.use('/task', todoRouter);
 app.use('/auth', authRouter);
+// app.use(Authmiddleware);
 app.use(
     '/api-docs',
     swaggerUI.serve,

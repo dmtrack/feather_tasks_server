@@ -52,13 +52,7 @@ class AuthController {
             })
                 .status(200)
                 .send({
-                    token: signToken(
-                        String(response.user.id),
-                        response.user.login,
-                        response.user.name,
-                        response.user.avatarUrl,
-                        response.user.accessToken,
-                    ),
+                    token: response.accessToken,
                 });
         } catch (e: unknown) {
             if (
@@ -118,13 +112,7 @@ class AuthController {
             })
                 .status(200)
                 .send({
-                    token: signToken(
-                        response.user.id,
-                        response.user.login,
-                        response.name,
-                        response.avatarUrl,
-                        response.accessToken,
-                    ),
+                    token: response.accessToken,
                 });
         } catch (e: unknown) {
             if (
