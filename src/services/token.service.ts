@@ -36,8 +36,10 @@ export class TokenService {
             );
             return userData;
         } catch (e: unknown) {
-            return new Error(
+            return new DBError(
                 'unknown error in token.service / validateAccessToken is occured',
+                501,
+                e,
             );
         }
     }
@@ -50,8 +52,10 @@ export class TokenService {
             );
             return userData;
         } catch (e: unknown) {
-            return new Error(
+            return new DBError(
                 'unknown error in token.service / validateRefreshToken is occured',
+                501,
+                e,
             );
         }
     }
@@ -82,17 +86,10 @@ export class TokenService {
             }
             return token;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            } else if (e instanceof TokenError) {
-                return new TokenError(
-                    'token error in token.service / saveToken is occured',
-                    501,
-                    e,
-                );
-            }
-            return new Error(
-                'unknown error in token.service / saveToken is occured',
+            return new DBError(
+                'token error in token.service / saveToken is occured',
+                501,
+                e,
             );
         }
     }

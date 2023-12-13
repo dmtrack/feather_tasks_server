@@ -3,7 +3,7 @@ import connection from '../db/config';
 import { Column } from '../db/models/column';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
-import { checkBody } from './error.service';
+import { IColumnCreate, IColumnUpdate } from '../types/column.interface';
 
 class ColumnService {
     async getUserColumns(userId: number) {
@@ -14,10 +14,7 @@ class ColumnService {
 
             return columns;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            }
-            return new Error('unknown error is occured');
+            return new DBError('data base error', 501, e);
         }
     }
 
@@ -27,34 +24,22 @@ class ColumnService {
 
             return column;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            }
-            return new Error('unknown error is occured');
+            return new DBError('data base error', 501, e);
         }
     }
 
-    async create(column: Column) {
-        await connection.transaction(async (t: Transaction) => {
-            try {
-                const { userId, title, order } = column;
-
-                const newColumn: Column = await Column.create(
-                    {
-                        userId,
-                        title,
-                        order,
-                    },
-                    { transaction: t },
-                );
-                return newColumn;
-            } catch (e: unknown) {
-                if (e instanceof DBError) {
-                    return new DBError('data base error', 501, e);
-                }
-                return new Error('unknown error is occured');
-            }
+    async create(column: IColumnCreate) {
+        const { userId, title, order } = column;
+        const newColumn: Column = await Column.create({
+            userId,
+            title,
+            order,
         });
+        return newColumn;
+    }
+
+    catch(e: unknown) {
+        return new DBError('data base error', 501, e);
     }
 
     async getColumns() {
@@ -62,16 +47,32 @@ class ColumnService {
             const columns = await Column.findAll();
             return columns;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            }
-            return new Error('unknown error is occured');
+            return new DBError('data base error', 501, e);
         }
     }
 
-    async destroyColumn(id: number) {
+    async updateColumn(column: IColumnUpdate) {
+        const { id } = column;
+        try {
+            const foundedColumn = Column.findByPk(id);
+
+            if (!foundedColumn) {
+                return new EntityError(
+                    `there is no column with id:${id} in data-base`,
+                    400,
+                );
+            }
+            const updatedColumn = Column.update(column, { where: { id } });
+            return updatedColumn;
+        } catch (e: unknown) {
+            return new DBError('data base error', 501, e);
+        }
+    }
+
+    async deleteColumn(id: number) {
         try {
             const column = await Column.findByPk(id);
+
             if (!column) {
                 return new EntityError(
                     `there is no column with id:${id} in data-base`,
@@ -81,10 +82,7 @@ class ColumnService {
             await Column.destroy({ where: { id } });
             return `column with id:${id} is deleted`;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            }
-            return new Error('unknown error is occured');
+            return new DBError('column/service delete db error', 501, e);
         }
     }
 }

@@ -34,10 +34,7 @@ export class UserService {
             );
             return result;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('user/service data base error', 501, e);
-            }
-            return new Error('unknown user/service error was occured');
+            return new DBError('user/service create db error', 501, e);
         }
     }
 
@@ -46,10 +43,7 @@ export class UserService {
             const users = await User.findAll();
             return users;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            }
-            return new Error('unknown user/service error was occured');
+            return new DBError('user/service getusers db error', 501, e);
         }
     }
 
@@ -61,10 +55,7 @@ export class UserService {
 
             return user;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('user/service data base error', 501, e);
-            }
-            return new Error('unknown user/service error is occured');
+            return new DBError('user/service getuserbyid db error', 501, e);
         }
     }
 
@@ -76,10 +67,7 @@ export class UserService {
 
             return user;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('user/service data base error', 501, e);
-            }
-            return new Error('unknown user/service error was occured');
+            return new DBError('user/service getuserbylogin db error', 501, e);
         }
     }
 
@@ -95,10 +83,7 @@ export class UserService {
             await User.destroy({ where: { id } });
             return `пользователь с id:${id} удален`;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('user/service data base error', 501, e);
-            }
-            return new Error('unknown user/service error was occured');
+            return new DBError('user/service deleteuser db error', 501, e);
         }
     }
 }

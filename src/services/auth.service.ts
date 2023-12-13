@@ -54,10 +54,7 @@ export class AuthService {
             );
             return result;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            }
-            return new Error('unknown auth_service/signup error is occured');
+            return new DBError('data base error', 501, e);
         }
     }
 
@@ -87,12 +84,7 @@ export class AuthService {
             );
             return result;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            }
-            return new Error(
-                'unknown auth_service/sign_in is error is occured',
-            );
+            return new DBError('data base error', 501, e);
         }
     }
 }

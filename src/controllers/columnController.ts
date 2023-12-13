@@ -81,6 +81,7 @@ class ColumnController {
                 .status(400)
                 .send(createError(400, 'bad request: ' + bodyError));
         }
+        const userId = req.baseUrl.split('/')[2];
 
         const { title, order } = req.body;
 
@@ -88,7 +89,10 @@ class ColumnController {
             const response: Column = await columnService.create({
                 title,
                 order,
+                userId,
             });
+
+            console.log({ response });
 
             res.json(response);
         } catch (e: unknown) {
@@ -122,15 +126,42 @@ class ColumnController {
         }
     };
 
-    destroyColumn: RequestHandler = async (req, res) => {
+    updateColumn: RequestHandler = async (req, res) => {
+        const bodyError = checkBody(req.body, ['title', 'order']);
+        if (bodyError) {
+            return res
+                .status(400)
+                .send(createError(400, 'bad request: ' + bodyError));
+        }
+        const { title, order } = req.body;
+
+        const { id } = req.params;
+
+        try {
+            const response = await columnService.updateTask({
+                id,
+                title,
+                order,
+            });
+            res.json(response);
+        } catch (e: unknown) {
+            if (e instanceof Error) res.status(400).json(e.message);
+        }
+    };
+
+    deleteColumn: RequestHandler = async (req, res) => {
         const { id } = req.params;
         try {
-            const response = await columnService.destroyColumn(id);
+            const response = await columnService.deleteColumn(id);
 
-            if (!(response instanceof EntityError)) {
-                res.status(200).json(response);
+            if (response instanceof DBError) {
+                res.status(response.statusCode).send({
+                    name: response.name,
+                    statusCode: response.statusCode,
+                    message: response.message,
+                });
             } else {
-                throw new EntityError(`there is no task with id: ${id}`, 404);
+                return res.status(200).json(response);
             }
         } catch (e: unknown) {
             if (
