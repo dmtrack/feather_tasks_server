@@ -1,52 +1,53 @@
 import { Transaction } from 'sequelize';
 import connection from '../db/config';
+import { Column } from '../db/models/column';
 import { Task } from '../db/models/task';
 import { User } from '../db/models/user';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
 
-class TaskService {
-    async create(task: Task) {
+class ColumnService {
+    async create(column: Column) {
         await connection.transaction(async (t: Transaction) => {
             try {
-                const { columnId, name, description } = task;
+                const { userId, name, order } = column;
 
-                const newTask: Task = await Task.create(
+                const newColumn: Column = await Column.create(
                     {
-                        columnId,
+                        userId,
                         name,
-                        description,
+                        order,
                     },
                     { transaction: t },
                 );
-                return newTask;
+                return newColumn;
             } catch (e: unknown) {
                 if (e instanceof DBError) {
                     return new DBError('data base error', 501, e);
                 }
-                return new Error('unknown error was occured');
+                return new Error('unknown error is occured');
             }
         });
     }
 
-    async getUserTasks(id: number) {
+    async getUserColumns(userId: number) {
         try {
             const result = await connection.transaction(
                 async (t: Transaction) => {
-                    const user = await User.findByPk(id);
+                    const user = await User.findByPk(userId);
                     if (!user) {
                         return new EntityError(
-                            `there is no user with id:${id} in data-base`,
+                            `there is no user with id:${userId} in data-base`,
                             400,
                         );
                     }
 
-                    const tasks = await Task.findAll({
-                        where: { columnId: id },
+                    const columns = await Column.findAll({
+                        where: { userId },
                         transaction: t,
                     });
 
-                    return tasks;
+                    return columns;
                 },
             );
             return result;
@@ -54,40 +55,40 @@ class TaskService {
             if (e instanceof DBError) {
                 return new DBError('data base error', 501, e);
             }
-            return new Error('unknown error was occured');
+            return new Error('unknown error is occured');
         }
     }
 
-    async getTodos() {
+    async getColumns() {
         try {
-            const todos = await Task.findAll();
-            return todos;
+            const columns = await Task.findAll();
+            return columns;
         } catch (e: unknown) {
             if (e instanceof DBError) {
                 return new DBError('data base error', 501, e);
             }
-            return new Error('unknown error was occured');
+            return new Error('unknown error is occured');
         }
     }
 
-    async destroyTodo(id: number) {
+    async destroyColumn(id: number) {
         try {
-            const todo = await Task.findByPk(id);
-            if (!todo) {
+            const column = await Column.findByPk(id);
+            if (!column) {
                 return new EntityError(
-                    `there is no todo with id:${id} in data-base`,
+                    `there is no column with id:${id} in data-base`,
                     400,
                 );
             }
-            await Task.destroy({ where: { id } });
-            return `task with id:${id} is deleted`;
+            await Column.destroy({ where: { id } });
+            return `column with id:${id} is deleted`;
         } catch (e: unknown) {
             if (e instanceof DBError) {
                 return new DBError('data base error', 501, e);
             }
-            return new Error('unknown error was occured');
+            return new Error('unknown error is occured');
         }
     }
 }
 
-module.exports = new TaskService();
+module.exports = new ColumnService();

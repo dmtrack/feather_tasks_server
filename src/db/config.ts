@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { User } from './models/user';
 import { Task } from './models/task';
 import { Token } from './models/token';
+import { Column } from './models/column';
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ const connection = new Sequelize({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     logging: false,
-    models: [User, Task, Token],
+    models: [User, Task, Token, Column],
     dialectOptions: {
         //     ssl: {
         //         require: true,

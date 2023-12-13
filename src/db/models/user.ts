@@ -1,4 +1,5 @@
 import * as sequelize from 'sequelize-typescript';
+import { Column } from './column';
 import { Task } from './task';
 import { Token } from './token';
 
@@ -45,8 +46,8 @@ export class User extends sequelize.Model {
     })
     tokenId!: number;
 
-    @sequelize.HasMany(() => Task, { onDelete: 'cascade' })
-    userTasks!: Task[];
+    @sequelize.HasMany(() => Column, { onDelete: 'cascade' })
+    columns!: Column[];
 
     @sequelize.HasOne(() => Token, { onDelete: 'cascade' })
     token!: Token;

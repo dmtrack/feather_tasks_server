@@ -4,16 +4,28 @@ import { IUserDto } from '../../types/user.interface';
 import { DBError } from '../../exceptions/db-error';
 import mokeData from '../moke.json';
 
-const TaskService = require('../../services/task.service');
 const UserService = require('../../services/user.service');
+const ColumnService = require('../../services/column.service');
+const TaskService = require('../../services/task.service');
 
 const createMokeData = async () => {
     try {
         await UserService.create(mokeData.users.user1);
         await UserService.create(mokeData.users.user2);
+
+        await ColumnService.create(mokeData.columns.column1);
+        await ColumnService.create(mokeData.columns.column2);
+        await ColumnService.create(mokeData.columns.column3);
+        await ColumnService.create(mokeData.columns.column4);
+        await ColumnService.create(mokeData.columns.column5);
+        await ColumnService.create(mokeData.columns.column6);
+
         await TaskService.create(mokeData.todos.todo1);
         await TaskService.create(mokeData.todos.todo2);
         await TaskService.create(mokeData.todos.todo3);
+        await TaskService.create(mokeData.todos.todo4);
+        await TaskService.create(mokeData.todos.todo5);
+        await TaskService.create(mokeData.todos.todo6);
     } catch (e: unknown) {
         if (e instanceof DBError) {
             return new DBError('data base error', 501, e);

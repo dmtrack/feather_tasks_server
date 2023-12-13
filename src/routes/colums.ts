@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import taskController from '../controllers/taskController';
+import columnController from '../controllers/columnController';
 
-const taskRouter = Router();
+const columnRouter = Router();
 
 /**
  * @swagger
@@ -92,7 +92,7 @@ const taskRouter = Router();
  *                items:
  *                  $ref: '#/components/schemas/User'
  */
-taskRouter.get('/gettasks', taskController.getTasks);
+columnRouter.get('/getcolumns', columnController.getColumns);
 
 /**
  * @swagger
@@ -131,7 +131,7 @@ taskRouter.get('/gettasks', taskController.getTasks);
  *        description: server error while creating user
  *
  */
-taskRouter.post('/create', taskController.create);
+columnRouter.post('/create', columnController.create);
 
 /**
  * @swagger
@@ -179,8 +179,8 @@ taskRouter.post('/create', taskController.create);
  *         description:  there are no such grades, sorry
  */
 
-taskRouter.get('/getusertasks/:id', taskController.getUserTasks);
+columnRouter.get('/getusercolumns/:id', columnController.getUserColumns);
 
-taskRouter.delete('/destroy/:id', taskController.destroyTask);
+columnRouter.delete('/destroy/:id', columnController.destroyColumn);
 
-export default taskRouter;
+export default columnRouter;
