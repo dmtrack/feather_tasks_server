@@ -14,14 +14,14 @@ export class TokenService {
             payload,
             process.env.JWT_ACCESS_SECRET,
             {
-                expiresIn: '30m',
+                expiresIn: 60 * 30,
             },
         );
         const refreshToken = await jwt.sign(
             payload,
             process.env.JWT_REFRESH_SECRET,
             {
-                expiresIn: '30d',
+                expiresIn: 60 * 60 * 24 * 30,
             },
         );
 
@@ -53,38 +53,6 @@ export class TokenService {
             return new Error(
                 'unknown error in token.service / validateRefreshToken is occured',
             );
-        }
-    }
-
-    async createTokens(userDto: IUserDto) {
-        try {
-            const result = await connection.transaction(
-                async (t: Transaction) => {
-                    const tokens: ITokenCouple =
-                        await this.generateTokens(userDto);
-                    await this.saveToken(userDto.id, tokens.refreshToken, t);
-                    return tokens;
-                },
-            );
-            return result;
-        } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError(
-                    'db error in token.service / createToken is occured',
-                    501,
-                    e,
-                );
-            } else if (e instanceof TokenError) {
-                return new TokenError(
-                    'token error in token.service / createToken is occured',
-                    501,
-                    e,
-                );
-            } else {
-                return new Error(
-                    'unknown error in token.service / createToken is occured',
-                );
-            }
         }
     }
 

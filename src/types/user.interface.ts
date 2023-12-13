@@ -14,4 +14,5 @@ export interface IUserAfterSignIn {
         accessToken: string;
     };
     refreshToken: string;
+    accessToken: string;
 }

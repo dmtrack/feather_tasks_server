@@ -24,9 +24,11 @@ export class AuthService {
                         { transaction: t },
                     );
 
+                    const user = await createUserDto(newUser);
+
                     const tokens: ITokenCouple =
                         await tokenService.generateTokens({
-                            ...newUser,
+                            ...user,
                         });
 
                     const token: IToken = await tokenService.saveToken(
@@ -39,15 +41,14 @@ export class AuthService {
                         { tokenId: token.id },
                         { where: { id: newUser.id }, transaction: t },
                     );
-                    const user = await createUserDto(newUser);
                     const userWithToken = {
                         ...user,
-                        accessToken: tokens.accessToken,
                     };
 
                     return {
                         user: userWithToken,
                         refreshToken: tokens.refreshToken,
+                        accessToken: tokens.accessToken,
                     };
                 },
             );
@@ -64,25 +65,23 @@ export class AuthService {
         try {
             const result = await connection.transaction(
                 async (t: Transaction) => {
+                    const user = await createUserDto(foundedUser);
+
                     const tokens: ITokenCouple =
                         await tokenService.generateTokens({
-                            ...foundedUser,
+                            ...user,
                         });
 
                     await tokenService.saveToken(
-                        foundedUser.id,
+                        user.id,
                         tokens.refreshToken,
                         t,
                     );
 
-                    const user = await createUserDto(foundedUser);
-                    const userWithToken = {
-                        ...user,
-                        accessToken: tokens.accessToken,
-                    };
                     return {
-                        user: userWithToken,
+                        user,
                         refreshToken: tokens.refreshToken,
+                        accessToken: tokens.accessToken,
                     };
                 },
             );
