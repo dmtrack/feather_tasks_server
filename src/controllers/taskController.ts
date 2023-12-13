@@ -11,7 +11,6 @@ const taskService = require('../services/task.service');
 class TaskController {
     create: RequestHandler = async (req, res) => {
         const columnId = req.baseUrl.split('/')[2];
-
         const bodyError = checkBody(req.body, [
             'title',
             'order',
@@ -40,9 +39,10 @@ class TaskController {
         }
     };
 
-    getTasks: RequestHandler = async (req, res) => {
+    getColumnTasks: RequestHandler = async (req, res) => {
+        const columnId = req.baseUrl.split('/')[2];
         try {
-            const response = await taskService.getTasks();
+            const response = await taskService.getColumnTasks(columnId);
 
             return res.status(200).json(response);
         } catch (e: unknown) {

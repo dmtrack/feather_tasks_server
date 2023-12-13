@@ -1,5 +1,6 @@
 import { Transaction } from 'sequelize';
 import connection from '../db/config';
+import { Column } from '../db/models/column';
 import { Task } from '../db/models/task';
 import { User } from '../db/models/user';
 import { DBError } from '../exceptions/db-error';
@@ -38,13 +39,31 @@ class TaskService {
                     }
 
                     const tasks = await Task.findAll({
-                        where: { columnId: id },
+                        where: { userId: id },
                         transaction: t,
                     });
                     return tasks;
                 },
             );
             return result;
+        } catch (e: unknown) {
+            return new DBError('data base error', 501, e);
+        }
+    }
+
+    async getColumnTasks(id: number) {
+        try {
+            const column = await Column.findByPk(id);
+            if (!column) {
+                return new EntityError(
+                    `there is no column with id:${id} in data-base`,
+                    400,
+                );
+            }
+            const tasks = await Task.findAll({
+                where: { columnId: id },
+            });
+            return tasks;
         } catch (e: unknown) {
             return new DBError('data base error', 501, e);
         }
