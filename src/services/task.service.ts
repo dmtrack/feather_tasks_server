@@ -4,31 +4,28 @@ import { Task } from '../db/models/task';
 import { User } from '../db/models/user';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
+import { ICreateTask, IUpdateTask } from '../types/task.interface';
 
 class TaskService {
-    async create(task: Task) {
-        await connection.transaction(async (t: Transaction) => {
-            try {
-                const { userId, name, description, finished } = task;
+    async create(task: ICreateTask) {
+        try {
+            const { columnId, title, description, userId, order } = task;
 
-                const newTask: Task = await Task.create(
-                    {
-                        userId,
-                        name,
-                        description,
+            const newTask: Task = await Task.create({
+                columnId: +columnId,
+                title,
+                description,
+                userId,
+                order,
+            });
 
-                        finished,
-                    },
-                    { transaction: t },
-                );
-                return newTask;
-            } catch (e: unknown) {
-                if (e instanceof DBError) {
-                    return new DBError('data base error', 501, e);
-                }
-                return new Error('unknown error was occured');
+            return newTask;
+        } catch (e: unknown) {
+            if (e instanceof DBError) {
+                return new DBError('data base error', 501, e);
             }
-        });
+            return new Error('unknown error was occured');
+        }
     }
 
     async getUserTasks(id: number) {
@@ -44,10 +41,9 @@ class TaskService {
                     }
 
                     const tasks = await Task.findAll({
-                        where: { userId: id },
+                        where: { columnId: id },
                         transaction: t,
                     });
-
                     return tasks;
                 },
             );
@@ -60,10 +56,10 @@ class TaskService {
         }
     }
 
-    async getTodos() {
+    async getTasks() {
         try {
-            const todos = await Task.findAll();
-            return todos;
+            const tasks = await Task.findAll();
+            return tasks;
         } catch (e: unknown) {
             if (e instanceof DBError) {
                 return new DBError('data base error', 501, e);
@@ -72,16 +68,38 @@ class TaskService {
         }
     }
 
-    async destroyTodo(id: number) {
+    async updateTask(task: IUpdateTask) {
         try {
-            const todo = await Task.findByPk(id);
-            if (!todo) {
+            const { id } = task;
+            const foundedTask = Task.findByPk(id);
+
+            if (!foundedTask) {
                 return new EntityError(
-                    `there is no todo with id:${id} in data-base`,
+                    `there is no task with id:${id} in data-base`,
+                    400,
+                );
+            }
+            const updatedTask = Task.update(task, { where: { id } });
+            return updatedTask;
+        } catch (e: unknown) {
+            if (e instanceof DBError) {
+                return new DBError('data base error', 501, e);
+            }
+            return new Error('unknown error was occured');
+        }
+    }
+
+    async deleteTask(id: number) {
+        try {
+            const task = await Task.findByPk(id);
+            if (!task) {
+                return new EntityError(
+                    `there is no task with id:${id} in data-base`,
                     400,
                 );
             }
             await Task.destroy({ where: { id } });
+
             return `task with id:${id} is deleted`;
         } catch (e: unknown) {
             if (e instanceof DBError) {

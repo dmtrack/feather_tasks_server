@@ -1,4 +1,5 @@
 import * as sequelize from 'sequelize-typescript';
+import { Column } from './column';
 import { User } from './user';
 
 @sequelize.Table({
@@ -14,8 +15,15 @@ export class Task extends sequelize.Model {
     })
     id!: number;
 
-    @sequelize.BelongsTo(() => User)
-    user?: User;
+    @sequelize.ForeignKey(() => Column)
+    @sequelize.Column({
+        type: sequelize.DataType.BIGINT,
+        allowNull: false,
+    })
+    columnId!: number;
+
+    @sequelize.BelongsTo(() => Column)
+    column!: Column;
 
     @sequelize.ForeignKey(() => User)
     @sequelize.Column({
@@ -24,10 +32,13 @@ export class Task extends sequelize.Model {
     })
     userId!: number;
 
+    @sequelize.BelongsTo(() => User)
+    user!: User;
+
     @sequelize.Column({
         type: sequelize.DataType.STRING,
     })
-    name!: boolean;
+    title!: boolean;
 
     @sequelize.Column({
         type: sequelize.DataType.STRING,
@@ -35,7 +46,7 @@ export class Task extends sequelize.Model {
     description!: boolean;
 
     @sequelize.Column({
-        type: sequelize.DataType.BOOLEAN,
+        type: sequelize.DataType.BIGINT,
     })
-    finished!: boolean;
+    order!: number;
 }

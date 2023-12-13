@@ -16,19 +16,16 @@
             "userId": 1,
             "name": "create server",
             "description": "task 1 desc",
-            "finished": "true"
         },
         "todo2": {
             "userId": 1,
             "name": "create client",
             "description": "task 2 desc",
-            "finished": "false"
         },
         "todo3": {
-            "userId": 2,
+            "columnId": 2,
             "name": "read a book",
             "description": "task 3 desc",
-            "finished": "false"
         }
     }
 }
