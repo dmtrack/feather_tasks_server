@@ -21,10 +21,7 @@ class TaskService {
 
             return newTask;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            }
-            return new Error('unknown error was occured');
+            return new DBError('data base error', 501, e);
         }
     }
 
@@ -49,10 +46,7 @@ class TaskService {
             );
             return result;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            }
-            return new Error('unknown error was occured');
+            return new DBError('data base error', 501, e);
         }
     }
 
@@ -61,10 +55,7 @@ class TaskService {
             const tasks = await Task.findAll();
             return tasks;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            }
-            return new Error('unknown error was occured');
+            return new DBError('data base error', 501, e);
         }
     }
 
@@ -82,10 +73,7 @@ class TaskService {
             const updatedTask = Task.update(task, { where: { id } });
             return updatedTask;
         } catch (e: unknown) {
-            if (e instanceof DBError) {
-                return new DBError('data base error', 501, e);
-            }
-            return new Error('unknown error was occured');
+            return new DBError('data base error', 501, e);
         }
     }
 

@@ -22,9 +22,6 @@ export class Task extends sequelize.Model {
     })
     columnId!: number;
 
-    @sequelize.BelongsTo(() => Column)
-    column!: Column;
-
     @sequelize.ForeignKey(() => User)
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,

@@ -3,13 +3,10 @@ import dotenv from 'dotenv';
 import { urlencoded, json } from 'body-parser';
 import cors from 'cors';
 import http from 'http';
-
-import swaggerUI from 'swagger-ui-express';
-import swaggerJsDoc from 'swagger-jsdoc';
 import connection from './db/config';
 
 import userRouter from './routes/user';
-import columnRouter from './routes/columns';
+import { columnRouter } from './routes/columns';
 import todoRouter from './routes/task';
 import authRouter from './routes/auth';
 import { createMokeData } from './utils/helpers/helpers';
