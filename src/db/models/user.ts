@@ -14,7 +14,7 @@ export class User extends sequelize.Model {
         primaryKey: true,
         allowNull: false,
     })
-    id!: number;
+    _id!: number;
 
     @sequelize.Column({
         type: sequelize.DataType.STRING,

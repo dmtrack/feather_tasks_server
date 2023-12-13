@@ -7,11 +7,7 @@ export const columnRouter = Router();
 
 columnRouter.use('/:columnId/task', taskRouter);
 
-columnRouter.get(
-    '/getusercolumns',
-    jsonParser,
-    columnController.getUserColumns,
-);
+columnRouter.get('/', jsonParser, columnController.getUserColumns);
 
 columnRouter.get('/:id', columnController.getColumnById);
 

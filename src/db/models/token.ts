@@ -12,7 +12,7 @@ export class Token extends sequelize.Model {
         primaryKey: true,
         allowNull: false,
     })
-    id!: number;
+    _id!: number;
 
     @sequelize.ForeignKey(() => User)
     @sequelize.Column({

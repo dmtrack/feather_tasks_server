@@ -1,5 +1,5 @@
-export interface IUserDto {
-    id: number;
+export interface IUserDTO {
+    _id: number;
     name: string;
     login: string;
     avatar: string;
@@ -7,7 +7,7 @@ export interface IUserDto {
 
 export interface IUserAfterSignIn {
     user: {
-        id: number;
+        _id: number;
         name: string;
         login: string;
         avatarUrl: string;

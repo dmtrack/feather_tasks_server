@@ -41,6 +41,8 @@
         "prefer-const": "off",
         "import/no-useless-path-segments": "off",
         "no-else-return": "off",
-        "arrow-body-style": "off"
+        "arrow-body-style": "off",
+        "no-underscore-dangle": "off",
+        "function-paren-newline": "off"
     }
 }

@@ -23,7 +23,6 @@ export class AuthService {
                         },
                         { transaction: t },
                     );
-
                     const user = await createUserDto(newUser);
 
                     const tokens: ITokenCouple =
@@ -32,14 +31,14 @@ export class AuthService {
                         });
 
                     const token: IToken = await tokenService.saveToken(
-                        newUser.id,
+                        newUser._id,
                         tokens.refreshToken,
                         t,
                     );
 
                     await User.update(
-                        { tokenId: token.id },
-                        { where: { id: newUser.id }, transaction: t },
+                        { tokenId: token._id },
+                        { where: { _id: newUser._id }, transaction: t },
                     );
                     const userWithToken = {
                         ...user,
@@ -70,7 +69,7 @@ export class AuthService {
                         });
 
                     await tokenService.saveToken(
-                        user.id,
+                        user._id,
                         tokens.refreshToken,
                         t,
                     );

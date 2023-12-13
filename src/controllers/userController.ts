@@ -4,6 +4,7 @@ import { AuthError } from '../exceptions/auth-error';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
 import { TokenError } from '../exceptions/token-error';
+import { IUserDTO } from '../types/user.interface';
 import { createUserDto } from '../utils/helpers/helpers';
 
 const userService = require('../services/user.service');
@@ -21,7 +22,7 @@ class UserController {
 
             if (!(response instanceof EntityError)) {
                 res.status(200).json({
-                    id: response.id,
+                    _id: response._id,
                     name: response.login,
                     email: response.password,
                 });
@@ -50,10 +51,10 @@ class UserController {
 
     getUsers: RequestHandler = async (req, res) => {
         try {
-            const response = await userService.getUsers();
-            res.status(200).json({
-                response,
-            });
+            const response: User[] = await userService.getUsers();
+            const users: IUserDTO[] = response.map((u) => createUserDto(u));
+
+            res.status(200).send(users);
         } catch (e: unknown) {
             if (
                 e instanceof EntityError ||
@@ -81,9 +82,11 @@ class UserController {
             const response = await userService.getUserById(id);
             if (!(response instanceof EntityError)) {
                 const user = await createUserDto(response);
-                res.status(200).json({
+
+                res.status(200).send({
                     name: user.name,
                     login: user.login,
+                    _id: user._id,
                     avatar: user.avatar,
                 });
             } else {

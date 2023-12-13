@@ -5,6 +5,8 @@ import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
 import { TokenError } from '../exceptions/token-error';
 import { checkBody, createError } from '../services/error.service';
+import { IColumnDTO } from '../types/column.interface';
+import { createColumnDto } from '../utils/helpers/helpers';
 
 const columnService = require('../services/column.service');
 
@@ -13,9 +15,15 @@ class ColumnController {
         const userId = req.baseUrl.split('/')[2];
 
         try {
-            const response = await columnService.getUserColumns(userId);
+            const response: Column[] =
+                await columnService.getUserColumns(userId);
+
+            const columnDto: IColumnDTO[] = response.map((c) =>
+                createColumnDto(c),
+            );
+
             if (!(response instanceof EntityError)) {
-                res.status(200).json(response);
+                res.status(200).json(columnDto);
             } else {
                 throw new EntityError(
                     `there is no columns for user with id: ${userId}`,
@@ -91,10 +99,8 @@ class ColumnController {
                 order,
                 userId,
             });
-
-            console.log({ response });
-
-            res.json(response);
+            const columnDto: IColumnDTO = createColumnDto(response);
+            res.json(columnDto);
         } catch (e: unknown) {
             if (e instanceof Error) res.status(400).json(e.message);
         }
