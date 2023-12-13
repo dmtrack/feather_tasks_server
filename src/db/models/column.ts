@@ -19,7 +19,7 @@ export class Column extends sequelize.Model {
         type: sequelize.DataType.STRING,
         allowNull: false,
     })
-    name!: string;
+    title!: string;
 
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,

@@ -16,63 +16,75 @@
         "column1": {
             "userId": 1,
             "order": 1,
-            "name": "new"
+            "title": "new"
         },
         "column2": {
             "userId": 1,
             "order": 2,
-            "name": "in progress"
+            "title": "in progress"
         },
         "column3": {
             "userId": 1,
             "order": 3,
-            "name": "finished"
+            "title": "finished"
         },
         "column4": {
             "userId": 2,
             "order": 1,
-            "name": "new"
+            "title": "new"
         },
         "column5": {
             "userId": 2,
             "order": 2,
-            "name": "in progress"
+            "title": "in progress"
         },
         "column6": {
             "userId": 2,
             "order": 3,
-            "name": "finished"
+            "title": "finished"
         }
     },
     "todos": {
         "todo1": {
             "columnId": 1,
-            "name": "create server",
+            "userId": 1,
+            "title": "create server",
+            "order": 1,
             "description": "task 1 desc"
         },
         "todo2": {
             "columnId": 1,
-            "name": "create server",
+            "userId": 1,
+            "order": 2,
+            "title": "create server",
             "description": "task 1 desc"
         },
         "todo3": {
             "columnId": 3,
-            "name": "create server",
+            "userId": 1,
+            "order": 3,
+            "title": "create server",
             "description": "task 1 desc"
         },
         "todo4": {
             "columnId": 4,
-            "name": "create server",
+            "userId": 2,
+            "order": 1,
+            "title": "create server",
             "description": "task 1 desc"
         },
         "todo5": {
             "columnId": 5,
-            "name": "create server",
+            "userId": 2,
+            "order": 2,
+            "title": "create server",
             "description": "task 1 desc"
         },
         "todo6": {
             "columnId": 6,
-            "name": "create server",
+            "userId": 2,
+            "order": 3,
+            "title": "create server",
             "description": "task 1 desc"
         }
     }

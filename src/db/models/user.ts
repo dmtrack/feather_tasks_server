@@ -49,6 +49,9 @@ export class User extends sequelize.Model {
     @sequelize.HasMany(() => Column, { onDelete: 'cascade' })
     columns!: Column[];
 
+    @sequelize.HasMany(() => Task)
+    tasks!: Task[];
+
     @sequelize.HasOne(() => Token, { onDelete: 'cascade' })
     token!: Token;
 }

@@ -25,13 +25,28 @@ export class Task extends sequelize.Model {
     @sequelize.BelongsTo(() => Column)
     column!: Column;
 
+    @sequelize.ForeignKey(() => User)
+    @sequelize.Column({
+        type: sequelize.DataType.BIGINT,
+        allowNull: false,
+    })
+    userId!: number;
+
+    @sequelize.BelongsTo(() => User)
+    user!: User;
+
     @sequelize.Column({
         type: sequelize.DataType.STRING,
     })
-    name!: boolean;
+    title!: boolean;
 
     @sequelize.Column({
         type: sequelize.DataType.STRING,
     })
     description!: boolean;
+
+    @sequelize.Column({
+        type: sequelize.DataType.BIGINT,
+    })
+    order!: number;
 }
