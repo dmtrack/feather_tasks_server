@@ -7,7 +7,7 @@ const userController = require('../controllers/userController');
 
 const userRouter = Router();
 
-userRouter.use('/:id/column', jsonParser, columnRouter);
+userRouter.use('/:userId/column', jsonParser, columnRouter);
 
 userRouter.post('/create', userController.create);
 

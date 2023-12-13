@@ -51,27 +51,17 @@ class TaskService {
         }
     }
 
-    async getColumnTasks(id: number) {
+    async getTasks(columnId: number, userId: number) {
         try {
-            const column = await Column.findByPk(id);
-            if (!column) {
+            const tasks = await Task.findAll({
+                where: { columnId, userId },
+            });
+            if (!tasks) {
                 return new EntityError(
-                    `there is no column with id:${id} in data-base`,
+                    'there is no tasks with this params in data-base',
                     400,
                 );
             }
-            const tasks = await Task.findAll({
-                where: { columnId: id },
-            });
-            return tasks;
-        } catch (e: unknown) {
-            return new DBError('data base error', 501, e);
-        }
-    }
-
-    async getTasks() {
-        try {
-            const tasks = await Task.findAll();
             return tasks;
         } catch (e: unknown) {
             return new DBError('data base error', 501, e);

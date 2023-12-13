@@ -10,15 +10,15 @@ const columnService = require('../services/column.service');
 
 class ColumnController {
     getUserColumns: RequestHandler = async (req, res) => {
-        const { id } = req.params;
+        const userId = req.baseUrl.split('/')[2];
 
         try {
-            const response = await columnService.getUserColumns(id);
+            const response = await columnService.getUserColumns(userId);
             if (!(response instanceof EntityError)) {
                 res.status(200).json(response);
             } else {
                 throw new EntityError(
-                    `there is no columns for user with id: ${id}`,
+                    `there is no columns for user with id: ${userId}`,
                     404,
                 );
             }
@@ -135,11 +135,11 @@ class ColumnController {
         }
         const { title, order } = req.body;
 
-        const { id } = req.params;
+        const { columnId } = req.params;
 
         try {
-            const response = await columnService.updateTask({
-                id,
+            const response = await columnService.updateColumn({
+                columnId,
                 title,
                 order,
             });

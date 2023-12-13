@@ -52,17 +52,19 @@ class ColumnService {
     }
 
     async updateColumn(column: IColumnUpdate) {
-        const { id } = column;
+        const { columnId } = column;
         try {
-            const foundedColumn = Column.findByPk(id);
+            const foundedColumn = Column.findByPk(columnId);
 
             if (!foundedColumn) {
                 return new EntityError(
-                    `there is no column with id:${id} in data-base`,
+                    `there is no column with id:${columnId} in data-base`,
                     400,
                 );
             }
-            const updatedColumn = Column.update(column, { where: { id } });
+            const updatedColumn = Column.update(column, {
+                where: { id: columnId },
+            });
             return updatedColumn;
         } catch (e: unknown) {
             return new DBError('data base error', 501, e);

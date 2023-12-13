@@ -5,5 +5,5 @@ export interface IColumnCreate {
 }
 
 export type IColumnUpdate = Pick<IColumnCreate, 'title' | 'order'> & {
-    id: number;
+    columnId: number;
 };

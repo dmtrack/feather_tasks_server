@@ -39,10 +39,11 @@ class TaskController {
         }
     };
 
-    getColumnTasks: RequestHandler = async (req, res) => {
+    getTasks: RequestHandler = async (req, res) => {
+        const userId = req.baseUrl.split('/')[4];
         const columnId = req.baseUrl.split('/')[2];
         try {
-            const response = await taskService.getColumnTasks(columnId);
+            const response = await taskService.getTasks(userId, columnId);
 
             return res.status(200).json(response);
         } catch (e: unknown) {
@@ -116,7 +117,6 @@ class TaskController {
         }
 
         const { id } = req.params;
-
         const { title, order, description, userId, columnId } = req.body;
 
         try {
