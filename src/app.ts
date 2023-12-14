@@ -34,7 +34,7 @@ app.use('/auth', authRouter);
 app.use('/column', columnRouter);
 
 connection
-    .sync({ force: true })
+    .sync()
     .then(async () => {
         await createMokeData();
         console.log('Database synced successfully, lets go!');
