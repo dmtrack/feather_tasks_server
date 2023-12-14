@@ -13,7 +13,8 @@ const taskService = require('../services/task.service');
 
 class TaskController {
     create: RequestHandler = async (req, res) => {
-        const columnId = req.baseUrl.split('/')[2];
+        const columnId = req.baseUrl.split('/')[4];
+
         const bodyError = checkBody(req.body, [
             'title',
             'order',
@@ -37,8 +38,7 @@ class TaskController {
                 columnId,
             });
 
-            const taskDto = createTaskDto(newTask);
-
+            const taskDto: ITaskDTO = createTaskDto(newTask);
             res.json(taskDto);
         } catch (e: unknown) {
             if (e instanceof Error) res.status(400).json(e.message);

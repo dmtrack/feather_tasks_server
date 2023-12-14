@@ -13,7 +13,7 @@ class TaskService {
             const { columnId, title, description, userId, order } = task;
 
             const newTask: Task = await Task.create({
-                columnId: +columnId,
+                columnId,
                 title,
                 description,
                 userId,
@@ -78,6 +78,7 @@ class TaskService {
                     400,
                 );
             }
+
             const updatedTask = Task.update(task, { where: { _id: id } });
             return updatedTask;
         } catch (e: unknown) {
