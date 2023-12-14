@@ -28,6 +28,7 @@ export class UserService {
                             },
                             { transaction: t },
                         );
+
                         return newUser;
                     }
                 },
@@ -47,10 +48,10 @@ export class UserService {
         }
     }
 
-    async getUserById(id: number) {
+    async getUserById(_id: number) {
         try {
             const user = await User.findOne({
-                where: { id },
+                where: { _id },
             });
 
             return user;
@@ -71,17 +72,17 @@ export class UserService {
         }
     }
 
-    async destroyUser(id: number) {
+    async destroyUser(_id: number) {
         try {
-            const user = await User.findByPk(id);
+            const user = await User.findByPk(_id);
             if (!user) {
                 return new EntityError(
-                    `there is no user with id:${id} in data-base`,
+                    `there is no user with id:${_id} in data-base`,
                     400,
                 );
             }
-            await User.destroy({ where: { id } });
-            return `пользователь с id:${id} удален`;
+            await User.destroy({ where: { _id } });
+            return `пользователь с id:${_id} удален`;
         } catch (e: unknown) {
             return new DBError('user/service deleteuser db error', 501, e);
         }

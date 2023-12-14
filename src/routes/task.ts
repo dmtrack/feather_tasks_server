@@ -4,7 +4,7 @@ import taskController from '../controllers/taskController';
 export const taskRouter = Router();
 const jsonParser = express.json();
 
-taskRouter.get('/', taskController.getColumnTasks);
+taskRouter.get('/', taskController.getTasks);
 
 taskRouter.post('/', jsonParser, taskController.create);
 

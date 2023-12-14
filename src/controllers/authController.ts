@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express';
-import { signToken } from './../utils/helpers/helpers';
 import { User } from '../db/models/user';
 import { AuthError } from '../exceptions/auth-error';
 import { DBError } from '../exceptions/db-error';

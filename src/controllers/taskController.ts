@@ -1,16 +1,20 @@
 import { RequestHandler } from 'express';
+import { Task } from '../db/models/task';
 import { User } from '../db/models/user';
 import { AuthError } from '../exceptions/auth-error';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
 import { TokenError } from '../exceptions/token-error';
 import { checkBody, createError } from '../services/error.service';
+import { ITaskDTO } from '../types/task.interface';
+import { createTaskDto } from '../utils/helpers/helpers';
 
 const taskService = require('../services/task.service');
 
 class TaskController {
     create: RequestHandler = async (req, res) => {
-        const columnId = req.baseUrl.split('/')[2];
+        const columnId = req.baseUrl.split('/')[4];
+
         const bodyError = checkBody(req.body, [
             'title',
             'order',
@@ -26,25 +30,34 @@ class TaskController {
         const { title, order, description, userId } = req.body;
 
         try {
-            const newTask = await taskService.create({
+            const newTask: Task = await taskService.create({
                 title,
                 order,
                 description,
                 userId,
                 columnId,
             });
-            res.json(newTask);
+
+            const taskDto: ITaskDTO = createTaskDto(newTask);
+            res.json(taskDto);
         } catch (e: unknown) {
             if (e instanceof Error) res.status(400).json(e.message);
         }
     };
 
-    getColumnTasks: RequestHandler = async (req, res) => {
+    getTasks: RequestHandler = async (req, res) => {
+        const userId = req.baseUrl.split('/')[4];
         const columnId = req.baseUrl.split('/')[2];
-        try {
-            const response = await taskService.getColumnTasks(columnId);
 
-            return res.status(200).json(response);
+        try {
+            const response: Task[] = await taskService.getTasks(
+                userId,
+                columnId,
+            );
+
+            const taskDto: ITaskDTO[] = response.map((t) => createTaskDto(t));
+
+            return res.status(200).json(taskDto);
         } catch (e: unknown) {
             if (
                 e instanceof EntityError ||
@@ -104,7 +117,6 @@ class TaskController {
     updateTask: RequestHandler = async (req, res) => {
         const bodyError = checkBody(req.body, [
             'title',
-            'order',
             'description',
             'userId',
             'columnId',
@@ -116,7 +128,6 @@ class TaskController {
         }
 
         const { id } = req.params;
-
         const { title, order, description, userId, columnId } = req.body;
 
         try {

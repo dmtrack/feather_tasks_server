@@ -7,15 +7,13 @@ export const columnRouter = Router();
 
 columnRouter.use('/:columnId/task', taskRouter);
 
-columnRouter.get('/getcolumns', columnController.getColumns);
+columnRouter.get('/', jsonParser, columnController.getUserColumns);
 
 columnRouter.get('/:id', columnController.getColumnById);
 
 columnRouter.post('/', jsonParser, columnController.create);
 
-columnRouter.get('/getusercolumns/:id', columnController.getUserColumns);
-
-columnRouter.put('/:Id', jsonParser, columnController.updateColumn);
+columnRouter.put('/:columnId', jsonParser, columnController.updateColumn);
 
 columnRouter.delete('/:id', columnController.deleteColumn);
 

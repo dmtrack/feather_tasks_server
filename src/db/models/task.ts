@@ -13,7 +13,7 @@ export class Task extends sequelize.Model {
         primaryKey: true,
         allowNull: false,
     })
-    id!: number;
+    _id!: number;
 
     @sequelize.ForeignKey(() => Column)
     @sequelize.Column({
@@ -35,12 +35,12 @@ export class Task extends sequelize.Model {
     @sequelize.Column({
         type: sequelize.DataType.STRING,
     })
-    title!: boolean;
+    title!: string;
 
     @sequelize.Column({
         type: sequelize.DataType.STRING,
     })
-    description!: boolean;
+    description!: string;
 
     @sequelize.Column({
         type: sequelize.DataType.BIGINT,

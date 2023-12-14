@@ -3,7 +3,11 @@ import connection from '../db/config';
 import { Column } from '../db/models/column';
 import { DBError } from '../exceptions/db-error';
 import { EntityError } from '../exceptions/entity-error';
-import { IColumnCreate, IColumnUpdate } from '../types/column.interface';
+import {
+    ColumnUpdateType,
+    IColumnCreate,
+    IColumnDTO,
+} from '../types/column.interface';
 
 class ColumnService {
     async getUserColumns(userId: number) {
@@ -18,9 +22,9 @@ class ColumnService {
         }
     }
 
-    async getColumnById(id: number) {
+    async getColumnById(_id: number) {
         try {
-            const column = await Column.findByPk(id);
+            const column = await Column.findByPk(_id);
 
             return column;
         } catch (e: unknown) {
@@ -35,6 +39,7 @@ class ColumnService {
             title,
             order,
         });
+
         return newColumn;
     }
 
@@ -51,36 +56,38 @@ class ColumnService {
         }
     }
 
-    async updateColumn(column: IColumnUpdate) {
-        const { id } = column;
+    async updateColumn(column: ColumnUpdateType) {
+        const { columnId } = column;
         try {
-            const foundedColumn = Column.findByPk(id);
+            const foundedColumn = Column.findByPk(columnId);
 
             if (!foundedColumn) {
                 return new EntityError(
-                    `there is no column with id:${id} in data-base`,
+                    `there is no column with id:${columnId} in data-base`,
                     400,
                 );
             }
-            const updatedColumn = Column.update(column, { where: { id } });
+            const updatedColumn = Column.update(column, {
+                where: { _id: columnId },
+            });
             return updatedColumn;
         } catch (e: unknown) {
             return new DBError('data base error', 501, e);
         }
     }
 
-    async deleteColumn(id: number) {
+    async deleteColumn(_id: number) {
         try {
-            const column = await Column.findByPk(id);
+            const column = await Column.findByPk(_id);
 
             if (!column) {
                 return new EntityError(
-                    `there is no column with id:${id} in data-base`,
+                    `there is no column with id:${_id} in data-base`,
                     400,
                 );
             }
-            await Column.destroy({ where: { id } });
-            return `column with id:${id} is deleted`;
+            await Column.destroy({ where: { _id } });
+            return `column with id:${_id} is deleted`;
         } catch (e: unknown) {
             return new DBError('column/service delete db error', 501, e);
         }

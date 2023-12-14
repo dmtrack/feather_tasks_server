@@ -3,13 +3,13 @@ import connection from '../db/config';
 import { DBError } from '../exceptions/db-error';
 import { TokenError } from '../exceptions/token-error';
 import { ITokenCouple } from '../types/token.interface';
-import { IUserDto } from '../types/user.interface';
+import { IUserDTO } from '../types/user.interface';
 import { Token } from './../db/models/token';
 
 const jwt = require('jsonwebtoken');
 
 export class TokenService {
-    async generateTokens(payload: IUserDto) {
+    async generateTokens(payload: IUserDTO) {
         const accessToken = await jwt.sign(
             payload,
             process.env.JWT_ACCESS_SECRET,

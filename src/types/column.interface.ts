@@ -4,6 +4,13 @@ export interface IColumnCreate {
     order: number;
 }
 
-export type IColumnUpdate = Pick<IColumnCreate, 'title' | 'order'> & {
-    id: number;
+export type ColumnUpdateType = Pick<IColumnCreate, 'title' | 'order'> & {
+    columnId: number;
 };
+
+export interface IColumnDTO {
+    _id: number;
+    userId: number;
+    title: string;
+    order: number;
+}

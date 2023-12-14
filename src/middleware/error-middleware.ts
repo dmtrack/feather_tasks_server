@@ -13,8 +13,6 @@ module.exports = function ApiError(
     res: Response,
     next: NextFunction,
 ) {
-    console.log({ err });
-
     if (err instanceof AuthError) {
         res.status(err.statusCode).json({
             statusCode: err.statusCode,
